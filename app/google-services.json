@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "268408516119",
+    "firebase_url": "https://inf8405-tp3-a9c53.firebaseio.com",
+    "project_id": "inf8405-tp3-a9c53",
+    "storage_bucket": "inf8405-tp3-a9c53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268408516119:android:a2c8ef8dfad71215",
+        "android_client_info": {
+          "package_name": "com.inf8405.polymtl.lab3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268408516119-d51qvjh7pj1rdck41dsfj00bmj25toks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcyX2PVoEVGaMNrxAB_5gpRfCn9ZFvNjk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
