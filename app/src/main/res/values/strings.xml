@@ -10,4 +10,10 @@
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
     <string name="main_menu_btn_view_favorites">Voir mes favoris</string>
+    <!--Add Artwork-->
+    <string name="add_artwork_btn_photo_from_camera">Prendre une photo</string>
+    <string name="add_artwork_btn_photo_from_file">Charger d\'un fichier</string>
+    <string name="add_artwork_btn_map">Placer sur la carte</string>
+    <string name="add_artwork_name">Nom de l\'oeuvre</string>
+    <string name="add_artwork_description">Description de l\'oeuvre</string>
 </resources>
