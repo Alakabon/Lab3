@@ -16,4 +16,5 @@
     <string name="add_artwork_btn_map">Placer sur la carte</string>
     <string name="add_artwork_name">Nom de l\'oeuvre</string>
     <string name="add_artwork_description">Description de l\'oeuvre</string>
+    <string name="add_artwork_btn_add_artwork">Ajouter l\'oeuvre</string>
 </resources>
