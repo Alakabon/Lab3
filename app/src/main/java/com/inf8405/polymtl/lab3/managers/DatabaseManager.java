@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
 
 /**
@@ -92,6 +93,24 @@ public class DatabaseManager {
     
             User newUser = new User(pushId, name, encryptedPassword);
             insertRef.setValue(newUser);
+            
+            return true;
+        }
+        catch(DatabaseException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean addArtwork(Artwork artwork) {
+        
+        try {
+            DatabaseReference insertRef = _instance.getReference().child("root").child("artworks").child(artwork.getName());
+            
+            String pushId = insertRef.push().getKey();
+            artwork.setId(pushId);
+            
+            insertRef.setValue(artwork);
             
             return true;
         }

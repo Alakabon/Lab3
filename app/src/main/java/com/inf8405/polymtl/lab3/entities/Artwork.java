@@ -7,8 +7,8 @@ import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 
-public class ArtWork {
-    private static final String TAG = "ArtWork";
+public class Artwork {
+    private static final String TAG = "Artwork";
     
     private String id;
     private String name;
@@ -19,10 +19,10 @@ public class ArtWork {
     private Double averageRating;
     private HashMap<String, String> comments;
     
-    public ArtWork() {
+    public Artwork() {
     }
     
-    public ArtWork(String id, String name, String description, String photoURL, Location location, HashMap<String, Integer> ratings, Double averageRating, HashMap<String, String> comments) {
+    public Artwork(String id, String name, String description, String photoURL, Location location, HashMap<String, Integer> ratings, Double averageRating, HashMap<String, String> comments) {
         this.id = id;
         this.name = name;
         this.description = description;

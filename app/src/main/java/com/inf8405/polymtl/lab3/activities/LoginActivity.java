@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             ((GlobalDataManager) getApplicationContext()).set_dbManager(dbManager);
         }
         else{
-            _gdm.get_dbManager().set_loggedIn(false);
+            //_gdm.get_dbManager().set_loggedIn(false);
         }
         
         Button loginButton = (Button) findViewById(R.id.login_button_login);
@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText passwordField = (EditText) findViewById(R.id.login_password);
                 
                 _gdm.get_dbManager().login(nameField.getText().toString(), passwordField.getText().toString());
+                
                 if(_gdm.get_dbManager().is_loggedIn()){
                     Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
                     startActivity(intent);

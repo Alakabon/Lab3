@@ -17,4 +17,6 @@
     <string name="add_artwork_name">Nom de l\'oeuvre</string>
     <string name="add_artwork_description">Description de l\'oeuvre</string>
     <string name="add_artwork_btn_add_artwork">Ajouter l\'oeuvre</string>
+    <string name="add_artwork_message_success">L\'oeuvre a été ajoutée</string>
+    <string name="add_artwork_message_failure">L\'oeuvre n\'a pu être ajoutée</string>
 </resources>
