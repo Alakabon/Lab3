@@ -31,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
             DatabaseManager dbManager = new DatabaseManager(this);
             ((GlobalDataManager) getApplicationContext()).set_dbManager(dbManager);
         }
+        else{
+            _gdm.get_dbManager().set_loggedIn(false);
+        }
         
         Button loginButton = (Button) findViewById(R.id.login_button_login);
         loginButton.setOnClickListener(new OnClickListener() {
