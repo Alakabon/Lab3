@@ -9,6 +9,8 @@ import com.inf8405.polymtl.lab3.entities.User;
  */
 
 public class GlobalDataManager extends Application {
+    private static final String TAG = "GlobalDataManager";
+    
     private User _userData;
     private DatabaseManager _dbManager;
     

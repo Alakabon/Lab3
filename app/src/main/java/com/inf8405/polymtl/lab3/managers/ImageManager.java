@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
  * */
 
 public final class ImageManager {
+    private static final String TAG = "ImageManager";
     private static final String noPicture = "No picture found";
     
     private ImageManager(){

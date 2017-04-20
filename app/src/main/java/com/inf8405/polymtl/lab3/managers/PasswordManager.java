@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
  * http://stackoverflow.com/questions/23561104/how-to-encrypt-and-decrypt-string-with-my-passphrase-in-java-pc-not-mobile-plat
  */
 public class PasswordManager {
+    private static final String TAG = "PasswordManager";
     private final static String key = "A2BF98261C48C"; // 128 bit WEP key
     
     public static String encryptPassword(String plainPassword) {

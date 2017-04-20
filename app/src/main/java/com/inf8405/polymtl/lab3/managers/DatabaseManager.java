@@ -16,8 +16,8 @@ import com.inf8405.polymtl.lab3.entities.User;
  */
 
 public class DatabaseManager {
-    
     private static final String TAG = "DatabaseManager";
+    
     private FirebaseDatabase _instance;
     private Context _ctx;
     private boolean _loggedIn;
