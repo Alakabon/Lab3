@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
+import com.inf8405.polymtl.lab3.listeners.GetDataListener;
+import com.inf8405.polymtl.lab3.listeners.LoginListener;
 
 import java.util.ArrayList;
 
@@ -65,30 +67,30 @@ public class DatabaseManager {
         this._loggedIn = _loggedIn;
     }
     
-    public boolean login(final String name, final String plainPassword) {
+    public boolean login(final LoginListener loginListener) {
+        //loginListener.onStart(); Nothing for the moment
         //Retrieve user
-        DatabaseReference userRef = _instance.getReference().child("root").child("users").child(name);
+        DatabaseReference userRef = _instance.getReference().child("root").child("users").child(loginListener.getUserName());
         
         // Read from the database
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User dbUser = dataSnapshot.getValue(User.class);
-                    String dbPassword = PasswordManager.decryptPassword(dbUser.getPassword());
-                    
-                    if (plainPassword.equals(dbPassword)) {
-                        set_loggedIn(true);
-                    } else {
-                        set_loggedIn(false);
-                    }
+                if (dataSnapshot.getValue() != null) {
+                    loginListener.onSuccess(dataSnapshot);
+                    _loggedIn = true;
+                }
+                else{
+                    loginListener.onFailed(null);
                 }
             }
             
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w(TAG + ":login", "Failed to find value for user " + name, error.toException());
+                loginListener.onFailed(error);
+                _loggedIn = false;
+                Log.w(TAG + ":login", "Failed to find value for user " + loginListener.getUserName(), error.toException());
             }
         });
         
@@ -138,6 +140,7 @@ public class DatabaseManager {
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.exists()) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Artwork artwork = snapshot.getValue(Artwork.class);

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.inf8405.polymtl.lab3.R;
+import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
@@ -43,16 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                 //Attempt login
                 EditText nameField = (EditText) findViewById(R.id.login_name);
                 EditText passwordField = (EditText) findViewById(R.id.login_password);
+    
+                LoginListener loginListener = new LoginListener(getApplicationContext(),nameField.getText().toString(),passwordField.getText().toString());
+                _gdm.get_dbManager().login(loginListener);
                 
-                _gdm.get_dbManager().login(nameField.getText().toString(), passwordField.getText().toString());
-                
-                if(_gdm.get_dbManager().is_loggedIn()){
-                    Intent intent = new Intent(getApplicationContext(), MainMenuActivity.class);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),getString(R.string.login_error_failed),Toast.LENGTH_LONG).show();
-                }
             }
         });
         

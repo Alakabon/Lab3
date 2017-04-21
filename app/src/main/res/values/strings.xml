@@ -5,7 +5,8 @@
     <string name="login_password">Mot de passe</string>
     <string name="login_btn_login">Se connecter</string>
     <string name="login_btn_register">S\'enregistrer</string>
-    <string name="login_error_failed">Échec de la connection</string>
+    <string name="login_error_failed_username">Le nom d\'utilisateur n\'est pas reconnu</string>
+    <string name="login_error_failed_password">Le mot de passe est invalide</string>
     <!--Main menu-->
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
