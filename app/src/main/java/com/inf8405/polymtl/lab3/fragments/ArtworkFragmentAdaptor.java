@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 
 import java.util.ArrayList;
+
+import static android.R.drawable.ic_menu_camera;
 
 public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
     
@@ -29,6 +32,15 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         // Lookup view for data population
         TextView nameField = (TextView) convertView.findViewById(R.id.fragment_name);
         TextView descriptionField = (TextView) convertView.findViewById(R.id.fragment_description);
+    
+        //TODO get actual picture back, decode with ImageManager and set
+        ImageView photo = (ImageView) convertView.findViewById(R.id.fragment_image);
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            photo.setImageDrawable(getContext().getApplicationContext().getDrawable(ic_menu_camera));
+        } else {
+            photo.setImageDrawable(getContext().getResources().getDrawable(ic_menu_camera));
+        }
         
         // Populate the data into the template view using the data object
         nameField.setText(artwork.getName());

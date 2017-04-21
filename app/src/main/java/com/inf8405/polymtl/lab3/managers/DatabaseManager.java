@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
+import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
 import com.inf8405.polymtl.lab3.listeners.GetDataListener;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
 
@@ -132,7 +133,7 @@ public class DatabaseManager {
         return false;
     }
     
-    public ArrayList<Artwork> retrieveArtworks() {
+    public void retrieveArtworks(final GetArtworksListener getArtworksListener) {
         try {
             DatabaseReference userRef = _instance.getReference().child("root").child("artworks");
             final ArrayList<Artwork> tempArtworks = new ArrayList<>();
@@ -141,12 +142,8 @@ public class DatabaseManager {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Artwork artwork = snapshot.getValue(Artwork.class);
-                            tempArtworks.add(artwork);
-                        }
-                        setArtworks(tempArtworks);
+                    if (dataSnapshot.getValue()!= null) {
+                        getArtworksListener.onSuccess(dataSnapshot);
                     }
                 }
                 
@@ -156,10 +153,8 @@ public class DatabaseManager {
                     Log.w(TAG + ":getArtw", "Failed to retrieve artworks ", error.toException());
                 }
             });
-            return artworks;
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
-        return artworks;
     }
 }

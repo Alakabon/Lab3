@@ -20,4 +20,6 @@
     <string name="add_artwork_btn_add_artwork">Ajouter l\'oeuvre</string>
     <string name="add_artwork_message_success">L\'oeuvre a été ajoutée</string>
     <string name="add_artwork_message_failure">L\'oeuvre n\'a pu être ajoutée</string>
+    <string name="add_artwork_frag_name">Name</string>
+    <string name="add_artwork_frag_desc">Description</string>
 </resources>

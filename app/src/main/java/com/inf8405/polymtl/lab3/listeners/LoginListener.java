@@ -3,7 +3,6 @@ package com.inf8405.polymtl.lab3.listeners;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -63,14 +62,13 @@ public class LoginListener implements GetDataListener {
         if (plainPassword.equals(dbPassword)) {
             Intent intent = new Intent(ctx, MainMenuActivity.class);
             ctx.startActivity(intent);
-        }
-        else{
-            Toast.makeText(ctx,ctx.getString(R.string.login_error_failed_password),Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ctx, ctx.getString(R.string.login_error_failed_password), Toast.LENGTH_LONG).show();
         }
     }
     
     @Override
-    public void onFailed(DatabaseError databaseError){
-            Toast.makeText(ctx,ctx.getString(R.string.login_error_failed_username),Toast.LENGTH_LONG).show();
+    public void onFailed(DatabaseError databaseError) {
+        Toast.makeText(ctx, ctx.getString(R.string.login_error_failed_username), Toast.LENGTH_LONG).show();
     }
 }

@@ -64,7 +64,15 @@ public class AddArtworkActivity extends AppCompatActivity {
             }
         });
         
-        //TODO set resulting location from the map in the base class location
+        /**TODO set resulting location from the map in the base class location
+         * for the moment it crashes if the location is null since it has no
+         *  default constructor location() and firebase needs that... I switched artwork to
+         *  2 doubles, gpsX and gpsY but in theory once it has an initial location the
+         *  problem should take care of itself and we can go back to location
+         *
+         *  If there's an easy way to get an Address on top of it it would be a nice
+         *  field to have to show it when browsing
+        */
         Button launchMapBtn = (Button) findViewById(R.id.add_artwork_btn_map);
         launchMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override

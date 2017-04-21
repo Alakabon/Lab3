@@ -2,7 +2,10 @@ package com.inf8405.polymtl.lab3.managers;
 
 import android.app.Application;
 
+import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
+
+import java.util.ArrayList;
 
 /**
  * This class handles the local data and keeps it alive in between activities
@@ -13,8 +16,18 @@ public class GlobalDataManager extends Application {
     
     private User _userData;
     private DatabaseManager _dbManager;
+    private ArrayList<Artwork> _artworks;
+    
+    public ArrayList<Artwork> get_artworks() {
+        return _artworks;
+    }
+    
+    public void set_artworks(ArrayList<Artwork> _artworks) {
+        this._artworks = _artworks;
+    }
     
     public GlobalDataManager() {
+        _artworks = new ArrayList<>();
     }
     
     public GlobalDataManager(User _userData, DatabaseManager databaseManager) {
