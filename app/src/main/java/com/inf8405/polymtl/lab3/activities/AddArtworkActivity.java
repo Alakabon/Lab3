@@ -90,7 +90,8 @@ public class AddArtworkActivity extends AppCompatActivity {
                 
                 artwork.setName(name);
                 artwork.setDescription(description);
-                artwork.setLocation(location);  //TODO set from the map in the base class
+                artwork.setGpsX(0d);  //TODO set from the map in the base class
+                artwork.setGpsY(0d);
                 artwork.setPhotoURL(encodedPhoto);
                 
                 boolean success = _gdm.get_dbManager().addArtwork(artwork);
@@ -117,6 +118,10 @@ public class AddArtworkActivity extends AppCompatActivity {
         descriptionField.setText(getString(R.string.add_artwork_description));
 
         ImageView photo = (ImageView) findViewById(R.id.add_artwork_image);
-        photo.setImageDrawable(getResources().getDrawable(ic_menu_camera));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            photo.setImageDrawable(getApplicationContext().getDrawable(ic_menu_camera));
+        } else {
+            photo.setImageDrawable(getResources().getDrawable(ic_menu_camera));
+        }
     }
 }

@@ -12,6 +12,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
 
+import java.util.ArrayList;
+
 /**
  * This class handles the communication to and from the database using firebase
  */
@@ -22,11 +24,21 @@ public class DatabaseManager {
     private FirebaseDatabase _instance;
     private Context _ctx;
     private boolean _loggedIn;
+    private ArrayList<Artwork> artworks;
     
     public DatabaseManager(Context ctx) {
         _ctx = ctx;
         _loggedIn = false;
+        artworks = new ArrayList<>();
         _instance = FirebaseDatabase.getInstance();
+    }
+    
+    public ArrayList<Artwork> getArtworks() {
+        return artworks;
+    }
+    
+    public void setArtworks(ArrayList<Artwork> artworks) {
+        this.artworks = artworks;
     }
     
     public FirebaseDatabase get_instance() {
@@ -87,16 +99,15 @@ public class DatabaseManager {
         
         try {
             DatabaseReference insertRef = _instance.getReference().child("root").child("users").child(name);
-        
+            
             String encryptedPassword = PasswordManager.encryptPassword(plainPassword);
             String pushId = insertRef.push().getKey();
-    
+            
             User newUser = new User(pushId, name, encryptedPassword);
             insertRef.setValue(newUser);
             
             return true;
-        }
-        catch(DatabaseException e){
+        } catch (DatabaseException e) {
             e.printStackTrace();
         }
         return false;
@@ -113,10 +124,39 @@ public class DatabaseManager {
             insertRef.setValue(artwork);
             
             return true;
-        }
-        catch(DatabaseException e){
+        } catch (DatabaseException e) {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public ArrayList<Artwork> retrieveArtworks() {
+        try {
+            DatabaseReference userRef = _instance.getReference().child("root").child("artworks");
+            final ArrayList<Artwork> tempArtworks = new ArrayList<>();
+            // Read from the database
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Artwork artwork = snapshot.getValue(Artwork.class);
+                            tempArtworks.add(artwork);
+                        }
+                        setArtworks(tempArtworks);
+                    }
+                }
+                
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG + ":getArtw", "Failed to retrieve artworks ", error.toException());
+                }
+            });
+            return artworks;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+        return artworks;
     }
 }

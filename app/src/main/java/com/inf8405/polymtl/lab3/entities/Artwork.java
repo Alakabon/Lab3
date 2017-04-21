@@ -14,7 +14,8 @@ public class Artwork {
     private String name;
     private String description;
     private String photoURL;
-    private Location location;
+    private Double gpsX;
+    private Double gpsY;
     private HashMap<String, Integer> ratings;
     private Double averageRating;
     private HashMap<String, String> comments;
@@ -22,15 +23,38 @@ public class Artwork {
     public Artwork() {
     }
     
-    public Artwork(String id, String name, String description, String photoURL, Location location, HashMap<String, Integer> ratings, Double averageRating, HashMap<String, String> comments) {
+    public Artwork(String name, String description, String photoURL) {
+        this.name = name;
+        this.description = description;
+        this.photoURL = photoURL;
+    }
+    
+    public Artwork(String id, String name, String description, String photoURL, Double gpsX, Double gpsY, HashMap<String, Integer> ratings, Double averageRating, HashMap<String, String> comments) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.photoURL = photoURL;
-        this.location = location;
+        this.gpsX = gpsX;
+        this.gpsY = gpsY;
         this.ratings = ratings;
         this.averageRating = averageRating;
         this.comments = comments;
+    }
+    
+    public Double getGpsX() {
+        return gpsX;
+    }
+    
+    public void setGpsX(Double gpsX) {
+        this.gpsX = gpsX;
+    }
+    
+    public Double getGpsY() {
+        return gpsY;
+    }
+    
+    public void setGpsY(Double gpsY) {
+        this.gpsY = gpsY;
     }
     
     public String getId() {
@@ -63,14 +87,6 @@ public class Artwork {
     
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
-    }
-    
-    public Location getLocation() {
-        return location;
-    }
-    
-    public void setLocation(Location location) {
-        this.location = location;
     }
     
     public HashMap<String, Integer> getRatings() {
