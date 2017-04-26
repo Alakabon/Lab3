@@ -41,6 +41,15 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button viewMapBtn = (Button) findViewById(R.id.main_menu_btn_view_map);
+        viewMapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ViewMapActivity.class);
+                startActivity(intent);
+            }
+        });
         
     }
 }
