@@ -102,5 +102,8 @@ public class GlobalDataManager extends Application {
     public void set_userData(User _userData) {
         this._userData = _userData;
     }
-    
+
+    public String get_online_status_string() {
+        return (_online_status == 1) ? "Online" : (_online_status == 0) ? "Offline" : "Error reading Internet status!";
+    }
 }

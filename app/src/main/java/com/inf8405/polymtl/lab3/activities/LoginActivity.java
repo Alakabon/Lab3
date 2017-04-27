@@ -7,11 +7,13 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.inf8405.polymtl.lab3.R;
@@ -24,15 +26,16 @@ import com.inf8405.polymtl.lab3.receivers.NetworkManager;
 
 
 public class LoginActivity extends AppCompatActivity {
-    
-    
+
+
+    GlobalDataManager _gdm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         
-        final GlobalDataManager _gdm = ((GlobalDataManager) getApplicationContext());
-        
+        _gdm = ((GlobalDataManager) getApplicationContext());
+
         if (_gdm.get_dbManager() == null) {
             // first init of db_manager
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -78,6 +81,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((TextView) findViewById(R.id.txt1)).setText(_gdm.get_online_status_string()); ;
     }
 }
 
