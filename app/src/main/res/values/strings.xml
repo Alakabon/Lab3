@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab3</string>
+    <string name="app_name">INF8405 - Smart Museum</string>
     <string name="google_maps_key">AIzaSyBo0gnuqIEbMEiQogFGL4c1IXWvN-b2NwU</string>
     <!--Login-->
     <string name="login_name">Nom d\'utilisateur</string>
@@ -8,6 +8,11 @@
     <string name="login_btn_register">S\'enregistrer</string>
     <string name="login_error_failed_username">Le nom d\'utilisateur n\'est pas reconnu</string>
     <string name="login_error_failed_password">Le mot de passe est invalide</string>
+    <string name="lbl_BatteryStatus">État de la batterie :</string>
+    <string name="lbl_InternetStatus">Statut de l\'Internet :</string>
+    <string name="lbl_gps">État du GPS :</string>
+    <string name="lbl_Latitude">Latitude :</string>
+    <string name="lbl_Longitude">Longitude :</string>
     <!--Main menu-->
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
