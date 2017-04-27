@@ -8,7 +8,6 @@ public class User {
     private String id;
     private String name;
     private String password;
-    private Location location;
     private Collection favorites;
     
     public User() {
@@ -19,20 +18,15 @@ public class User {
         this.id = id;
         this.name = name;
         this.password = password;
-        //TODO add current location
         this.favorites = null;
-        this.location = null;
     }
     
     public User(String id, String name, String password, Location location, Collection favorites) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.location = location;
         this.favorites = favorites;
     }
-    
-
     
     public String getId() {
         return id;
@@ -56,14 +50,6 @@ public class User {
     
     public void setPassword(String password) {
         this.password = password;
-    }
-    
-    public Location getLocation() {
-        return location;
-    }
-    
-    public void setLocation(Location location) {
-        this.location = location;
     }
     
     public Collection getFavorites() {

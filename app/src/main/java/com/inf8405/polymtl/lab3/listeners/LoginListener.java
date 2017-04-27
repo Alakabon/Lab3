@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.activities.MainMenuActivity;
 import com.inf8405.polymtl.lab3.entities.User;
+import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.PasswordManager;
 
 public class LoginListener implements GetDataListener {
@@ -60,6 +61,8 @@ public class LoginListener implements GetDataListener {
         String dbPassword = PasswordManager.decryptPassword(dbUser.getPassword());
         
         if (plainPassword.equals(dbPassword)) {
+            ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().set_loggedIn(true);
+            ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().syncUser(dbUser);
             Intent intent = new Intent(ctx, MainMenuActivity.class);
             ctx.startActivity(intent);
         } else {

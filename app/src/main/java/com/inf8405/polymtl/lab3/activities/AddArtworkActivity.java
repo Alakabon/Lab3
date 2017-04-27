@@ -14,6 +14,7 @@ import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.ImageManager;
+import com.inf8405.polymtl.lab3.receivers.GPSManager;
 
 import static android.R.drawable.ic_menu_camera;
 
@@ -72,7 +73,7 @@ public class AddArtworkActivity extends AppCompatActivity {
          *
          *  If there's an easy way to get an Address on top of it it would be a nice
          *  field to have to show it when browsing
-        */
+         */
         Button launchMapBtn = (Button) findViewById(R.id.add_artwork_btn_map);
         launchMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,16 +99,23 @@ public class AddArtworkActivity extends AppCompatActivity {
                 
                 artwork.setName(name);
                 artwork.setDescription(description);
-                artwork.setGpsX(0d);  //TODO set from the map in the base class
-                artwork.setGpsY(0d);
+                
+                GPSManager.getLatestGPSLocation(getApplicationContext());
+                Location deviceLocation = _gdm.get_deviceLocation();
+                
+                if(description!= null) {
+                    artwork.setGpsX(deviceLocation.getLongitude());
+                    artwork.setGpsY(deviceLocation.getLatitude());
+                }
+                
                 artwork.setPhotoURL(encodedPhoto);
                 
                 boolean success = _gdm.get_dbManager().addArtwork(artwork);
-                if(success){
+                
+                if (success) {
                     Toast.makeText(getApplicationContext(), getString(R.string.add_artwork_message_success), Toast.LENGTH_LONG).show();
                     resetPage();
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.add_artwork_message_failure), Toast.LENGTH_LONG).show();
                 }
             }
@@ -124,7 +132,7 @@ public class AddArtworkActivity extends AppCompatActivity {
         
         EditText descriptionField = (EditText) findViewById(R.id.add_artwork_description);
         descriptionField.setText(getString(R.string.add_artwork_description));
-
+        
         ImageView photo = (ImageView) findViewById(R.id.add_artwork_image);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             photo.setImageDrawable(getApplicationContext().getDrawable(ic_menu_camera));

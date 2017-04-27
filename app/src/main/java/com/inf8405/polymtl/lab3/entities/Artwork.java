@@ -16,6 +16,7 @@ public class Artwork {
     private String photoURL;
     private Double gpsX;
     private Double gpsY;
+    
     private HashMap<String, Integer> ratings;
     private Double averageRating;
     private HashMap<String, String> comments;

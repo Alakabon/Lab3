@@ -12,8 +12,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
-import com.inf8405.polymtl.lab3.listeners.GetDataListener;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
+import com.inf8405.polymtl.lab3.listeners.UserListener;
 
 import java.util.ArrayList;
 
@@ -25,6 +25,7 @@ public class DatabaseManager {
     private static final String TAG = "DatabaseManager";
     
     private FirebaseDatabase _instance;
+    private ValueEventListener userListener;
     private Context _ctx;
     private boolean _loggedIn;
     private ArrayList<Artwork> artworks;
@@ -34,6 +35,7 @@ public class DatabaseManager {
         _loggedIn = false;
         artworks = new ArrayList<>();
         _instance = FirebaseDatabase.getInstance();
+        userListener = new UserListener(_ctx);
     }
     
     public ArrayList<Artwork> getArtworks() {
@@ -79,9 +81,7 @@ public class DatabaseManager {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     loginListener.onSuccess(dataSnapshot);
-                    _loggedIn = true;
-                }
-                else{
+                } else {
                     loginListener.onFailed(null);
                 }
             }
@@ -142,7 +142,7 @@ public class DatabaseManager {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
-                    if (dataSnapshot.getValue()!= null) {
+                    if (dataSnapshot.getValue() != null) {
                         getArtworksListener.onSuccess(dataSnapshot);
                     }
                 }
@@ -155,6 +155,30 @@ public class DatabaseManager {
             });
         } catch (DatabaseException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void syncUser(User dbUser) {
+        if (_loggedIn) {
+            try {
+                DatabaseReference userRef = _instance.getReference().child("root").child("users").child(dbUser.getName());
+                userRef.addValueEventListener(userListener);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void logOff() {
+        if (_loggedIn) {
+            try {
+                User currentUser = ((GlobalDataManager) _ctx).get_userData();
+                DatabaseReference userRef = _instance.getReference().child("root").child("users").child(currentUser.getName());
+                userRef.removeEventListener(userListener);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
