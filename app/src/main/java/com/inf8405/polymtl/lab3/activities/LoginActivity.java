@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             
             registerReceiver(new LowBatteryManager(this), new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            registerReceiver(new NetworkManager(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+            registerReceiver(new NetworkManager(this), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
             registerReceiver(new GPSManager(this), new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
             _gdm.setReceiversRegistered(true);
         }
@@ -86,7 +86,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        ((TextView) findViewById(R.id.txt1)).setText(_gdm.get_online_status_string()); ;
+        ((TextView) findViewById(R.id.txt1)).setText(_gdm.get_online_status_string());
+        ((TextView) findViewById(R.id.txt2)).setText(_gdm.get_battery_level_string());
+        ((TextView) findViewById(R.id.txt5)).setText(_gdm.get_GPS_provider_status_string());
+        ((TextView) findViewById(R.id.txt3)).setText(_gdm.get_GPS_latitude_string());
+        ((TextView) findViewById(R.id.txt4)).setText(_gdm.get_GPS_longitude_string());
     }
 }
 

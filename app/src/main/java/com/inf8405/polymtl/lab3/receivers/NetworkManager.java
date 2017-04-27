@@ -9,7 +9,12 @@ import android.net.NetworkInfo;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
 public class NetworkManager extends BroadcastReceiver {
-    
+
+    private Context _ctx;
+    //___________________________________________________________________________________________________________________________________//
+    public NetworkManager(Context ctx) {
+        _ctx = ctx;
+    }
     //___________________________________________________________________________________________________________________________________//
     // This method will check connectivity in case if we need to check whether mobile is connected with the internet or not.
     public static int isOnline(Context context) {
@@ -30,5 +35,6 @@ public class NetworkManager extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         GlobalDataManager _gdm = (GlobalDataManager) context.getApplicationContext();
         _gdm.set_online_status(isOnline(context));
+        _gdm.update_online_status_on_the_main_activity(_ctx);
     }
 }

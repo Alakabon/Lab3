@@ -17,7 +17,7 @@ public class GPSManager extends BroadcastReceiver {
     private Context _ctx;
     private boolean _isProviderEnabled;
     private LocationManager _lm;
-    
+
     //___________________________________________________________________________________________________________________________________//
     public GPSManager(Context ctx) {
         _ctx = ctx;
@@ -39,6 +39,7 @@ public class GPSManager extends BroadcastReceiver {
                         @Override
                         public void onLocationChanged(Location location) {
                             ((GlobalDataManager) _ctx.getApplicationContext()).set_deviceLocation(location);
+                            ((GlobalDataManager) _ctx.getApplicationContext()).update_GPS_status_on_the_main_activity(_ctx);
                         }
                         
                         public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -77,6 +78,7 @@ public class GPSManager extends BroadcastReceiver {
         _isProviderEnabled = false;
         GlobalDataManager _gdm = (GlobalDataManager) ctx.getApplicationContext();
         _gdm.setGPSProviderStatus(isGPSFunctional(ctx));
+        _gdm.update_GPS_status_on_the_main_activity(ctx);
     }
     
     //___________________________________________________________________________________________________________________________________//

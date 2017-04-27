@@ -32,6 +32,7 @@ public class LowBatteryManager extends BroadcastReceiver {
             Intent _intent = _ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             GlobalDataManager _gdm = (GlobalDataManager) _ctx.getApplicationContext();
             _gdm.set_battery_level(_intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1));
+            _gdm.update_baterry_level_on_the_main_activity(_ctx);
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }

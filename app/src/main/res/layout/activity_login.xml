@@ -47,6 +47,7 @@
 
     <Button
         android:id="@+id/login_button_login"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="228dp"
         android:layout_height="48dp"
         android:layout_marginTop="@dimen/dim_vertical_padding"
@@ -66,9 +67,10 @@
         app:layout_constraintTop_toBottomOf="@+id/login_button_login" />
 
     <TableLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_button_register">
@@ -96,7 +98,7 @@
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:contentDescription="@string/lbl_InternetStatus"
-                app:srcCompat="@drawable/internet" />
+                app:srcCompat="@drawable/online" />
 
             <TextView
                 android:id="@+id/lbl1"
