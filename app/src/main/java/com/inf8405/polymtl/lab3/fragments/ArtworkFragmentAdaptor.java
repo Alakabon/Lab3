@@ -1,6 +1,8 @@
 package com.inf8405.polymtl.lab3.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.managers.ImageManager;
 
 import java.util.ArrayList;
 
@@ -32,14 +35,20 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         // Lookup view for data population
         TextView nameField = (TextView) convertView.findViewById(R.id.fragment_name);
         TextView descriptionField = (TextView) convertView.findViewById(R.id.fragment_description);
-    
+        Bitmap decodedPhoto = ImageManager.decodeImageFromString(artwork.getPhotoURL());
+        
         //TODO get actual picture back, decode with ImageManager and set
         ImageView photo = (ImageView) convertView.findViewById(R.id.fragment_image);
         
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            photo.setImageDrawable(getContext().getApplicationContext().getDrawable(ic_menu_camera));
-        } else {
-            photo.setImageDrawable(getContext().getResources().getDrawable(ic_menu_camera));
+        if( decodedPhoto != null){
+            photo.setImageBitmap(decodedPhoto);
+        }
+        else{
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                photo.setImageDrawable(getContext().getApplicationContext().getDrawable(ic_menu_camera));
+            } else {
+                photo.setImageDrawable(getContext().getResources().getDrawable(ic_menu_camera));
+            }
         }
         
         // Populate the data into the template view using the data object

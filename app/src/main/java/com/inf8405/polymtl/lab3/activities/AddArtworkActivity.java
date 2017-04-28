@@ -1,9 +1,14 @@
 package com.inf8405.polymtl.lab3.activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +21,14 @@ import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.ImageManager;
 import com.inf8405.polymtl.lab3.receivers.GPSManager;
 
+import java.io.ByteArrayOutputStream;
+
 import static android.R.drawable.ic_menu_camera;
 
 public class AddArtworkActivity extends AppCompatActivity {
+    
+    private static final String TAG = "AddArtwirjActivity";
+    private static final int REQUEST_IMAGE_CAPTURE = 8405;  //Constant value which will be used to identify specific camera results
     
     private GlobalDataManager _gdm;
     private Location location;
@@ -53,7 +63,19 @@ public class AddArtworkActivity extends AppCompatActivity {
         photoBtnFromCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                //Instruct Android to automatically access the device's camera.
+                //MediaStore is a built-in Android class that handles all things media,
+                //and ACTION_IMAGE_CAPTURE is the standard intent that accesses the device's camera application
+                Intent _camera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+    
+                //It's ensuring a camera app is available and accessible. It's important to perform this check,
+                //Because if we launch our intent and there is no camera application present to handle it, our app will crash
+                if (_camera.resolveActivity(getPackageManager()) != null)
+                    startActivityForResult(_camera, REQUEST_IMAGE_CAPTURE);
+    
+                //The above line, launch the camera, and retrieve the resulting image
+                //It will automatically trigger the callback method onActivityResult()
+                //when the result of the activity is available
             }
         });
         
@@ -139,5 +161,35 @@ public class AddArtworkActivity extends AppCompatActivity {
         } else {
             photo.setImageDrawable(getResources().getDrawable(ic_menu_camera));
         }
+    }
+    
+    //The result of the action we are launching will be returned automatically to this callback method
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                //Retrieve the image and display it on the ImageView
+                Bitmap _photo = (Bitmap) data.getExtras().get("data");
+                ((ImageView) findViewById(R.id.add_artwork_image)).setImageBitmap(_photo);
+                setImageViewTag(_photo);
+            }
+        } catch (Exception ex) {
+            ((ImageView) findViewById(R.id.add_artwork_image)).setImageResource(R.drawable.profile_error);
+            setImageViewTagAsDefault();
+            Log.e(TAG, ex.getMessage());
+        }
+    }
+    
+    private void setImageViewTagAsDefault() {
+        ByteArrayOutputStream _stream = new ByteArrayOutputStream();
+        Bitmap _photo = BitmapFactory.decodeResource(getResources(), 17301559);
+        _photo.compress(Bitmap.CompressFormat.PNG, 100, _stream);
+        ((ImageView) findViewById(R.id.add_artwork_image)).setTag(Base64.encodeToString(_stream.toByteArray(), Base64.DEFAULT));
+    }
+    
+    private void setImageViewTag(Bitmap photo) {
+        ByteArrayOutputStream _stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.PNG, 100, _stream);
+        ((ImageView) findViewById(R.id.add_artwork_image)).setTag(Base64.encodeToString(_stream.toByteArray(), Base64.DEFAULT));
     }
 }
