@@ -20,8 +20,6 @@ public class BrowseArtworkActivity extends AppCompatActivity{
         GetArtworksListener getArtworksListener = new GetArtworksListener(getApplicationContext(),this);
         
         ((GlobalDataManager)getApplicationContext()).get_dbManager().retrieveArtworks(getArtworksListener);
-        
-        Toast.makeText(getApplicationContext(),"You are now in Browse Artwork",Toast.LENGTH_LONG).show();
     }
    
 }

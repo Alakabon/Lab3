@@ -57,8 +57,6 @@ public class AddArtworkActivity extends AppCompatActivity {
         _gdm = ((GlobalDataManager) this.getApplicationContext());
         location = new Location(this.getCallingPackage());
         
-        Toast.makeText(getApplicationContext(), "You are now in Add Artwork", Toast.LENGTH_LONG).show();
-        
         Button photoBtnFromCamera = (Button) findViewById(R.id.add_artwork_btn_photo_from_camera);
         photoBtnFromCamera.setOnClickListener(new View.OnClickListener() {
             @Override
