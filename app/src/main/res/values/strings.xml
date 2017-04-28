@@ -13,6 +13,7 @@
     <string name="lbl_gps">État du GPS :</string>
     <string name="lbl_Latitude">Latitude :</string>
     <string name="lbl_Longitude">Longitude :</string>
+    <string name="lbl_UserID">User ID :</string>
     <!--Main menu-->
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
