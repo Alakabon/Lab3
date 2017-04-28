@@ -35,9 +35,8 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         // Lookup view for data population
         TextView nameField = (TextView) convertView.findViewById(R.id.fragment_name);
         TextView descriptionField = (TextView) convertView.findViewById(R.id.fragment_description);
+        // Retrieve image
         Bitmap decodedPhoto = ImageManager.decodeImageFromString(artwork.getPhotoURL());
-        
-        //TODO get actual picture back, decode with ImageManager and set
         ImageView photo = (ImageView) convertView.findViewById(R.id.fragment_image);
         
         if( decodedPhoto != null){
