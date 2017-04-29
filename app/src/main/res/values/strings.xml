@@ -14,6 +14,7 @@
     <string name="lbl_Latitude">Latitude :</string>
     <string name="lbl_Longitude">Longitude :</string>
     <string name="lbl_UserID">User ID :</string>
+    <string name="pref_file_key">LAB3_PREF_FILE_KEY</string>
     <!--Main menu-->
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
