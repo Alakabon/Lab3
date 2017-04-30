@@ -65,8 +65,8 @@ public class BrowseArtworkActivity extends AppCompatActivity {
         
         TextView distance = (TextView) popupWindow.findViewById(R.id.popup_artwork_info_distance);
         Location artworkLocation = new Location(TAG);
-        artworkLocation.setLatitude(artwork.getGpsY());
-        artworkLocation.setLongitude(artwork.getGpsX());
+        artworkLocation.setLatitude(artwork.getGpsX());
+        artworkLocation.setLongitude(artwork.getGpsY());
         Location currentLocation = ((GlobalDataManager) (getApplicationContext())).get_deviceLocation();
         
         float fDistance = currentLocation.distanceTo(artworkLocation) / 1000; //Distance in meters, divide by 1000 to get KM
