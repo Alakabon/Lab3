@@ -65,11 +65,10 @@ public class GetArtworksListener implements GetDataListener {
         }
         
         ((GlobalDataManager) ctx.getApplicationContext()).set_artworks(artworks);
-        
         final ListView listView = (ListView) browseActivity.findViewById(R.id.browse_artwork_listview);
-        
+
         listView.setAdapter(new ArtworkFragmentAdaptor(browseActivity.getApplicationContext(), artworks));
-        
+
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {

@@ -11,7 +11,13 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.R;
+import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.utilities.PermissionUtils;
 
@@ -29,6 +35,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class ViewMapActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
@@ -42,7 +50,7 @@ public class ViewMapActivity extends AppCompatActivity implements
      * @see #onRequestPermissionsResult(int, String[], int[])
      */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private boolean mPermissionDenied = false;
+    private boolean _permissionDenied = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +65,22 @@ public class ViewMapActivity extends AppCompatActivity implements
     public void onMapReady(final GoogleMap googleMap)
     {
         _map = googleMap;
-        //googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-
-        //@Override
-        //public void onMapLongClick(LatLng point) {
-            //addPlaceMarker(_map, point.latitude, point.longitude, "Nom", "Photo");
-        //}
-        //});
-        //_map.setOnInfoWindowClickListener(this);
         _map.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    updateMarkers(dataSnapshot);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                throw databaseError.toException();
+            }
+        });
         CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(_gdm.get_deviceLocation().getLatitude(), _gdm.get_deviceLocation().getLongitude()));
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
         _map.moveCamera(center);
@@ -99,10 +113,10 @@ public class ViewMapActivity extends AppCompatActivity implements
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        if (mPermissionDenied) {
+        if (_permissionDenied) {
             // Permission was not granted, display error dialog.
             showMissingPermissionError();
-            mPermissionDenied = false;
+            _permissionDenied = false;
         }
     }
     /**
@@ -113,17 +127,26 @@ public class ViewMapActivity extends AppCompatActivity implements
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
-    private void updateDeviceMarker()
+    private void updateMarkers(DataSnapshot dataSnapshot)
     {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(_gdm.get_deviceLocation().getLatitude(), _gdm.get_deviceLocation().getLongitude()));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-        _map.addMarker(new MarkerOptions()
-                .position(new LatLng(_gdm.get_deviceLocation().getLatitude(), _gdm.get_deviceLocation().getLatitude()))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                .title("Your current position"));
-        _map.moveCamera(center);
-        _map.animateCamera(zoom);
+        _map.clear();
+        /*final ArrayList<Artwork> artworks = new ArrayList<>();
+
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            Artwork artwork = snapshot.getValue(Artwork.class);
+            artworks.add(artwork);
+        }
+        //double i = 0;*/
+        //for (Artwork artwork : artworks)
+        for (Artwork artwork : _gdm.get_artworks())
+        {
+            _map.addMarker(new MarkerOptions()
+                    .position(new LatLng(artwork.getGpsX(), artwork.getGpsY()))
+                    //.position(new LatLng(i, i))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .title(artwork.getName())
+                    .snippet(artwork.getDescription()));
+            //i++;
+        }
     }
-
-
 }
