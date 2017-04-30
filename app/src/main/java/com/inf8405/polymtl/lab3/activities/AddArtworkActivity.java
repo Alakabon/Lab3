@@ -98,8 +98,8 @@ public class AddArtworkActivity extends AppCompatActivity {
                 GPSManager.getLatestGPSLocation(getApplicationContext());
                 Location deviceLocation = _gdm.get_deviceLocation();
                 
-                artwork.setGpsX(deviceLocation.getLongitude());
-                artwork.setGpsY(deviceLocation.getLatitude());
+                artwork.setGpsX(deviceLocation.getLatitude());
+                artwork.setGpsY(deviceLocation.getLongitude());
                 
                 artwork.setPhotoURL(encodedPhoto);
                 

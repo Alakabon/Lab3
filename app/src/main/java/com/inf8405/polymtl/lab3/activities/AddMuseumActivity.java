@@ -107,9 +107,9 @@ public class AddMuseumActivity extends AppCompatActivity {
                 
                 GPSManager.getLatestGPSLocation(getApplicationContext());
                 Location deviceLocation = _gdm.get_deviceLocation();
-                
-                museum.setGpsX(deviceLocation.getLongitude());
-                museum.setGpsY(deviceLocation.getLatitude());
+    
+                museum.setGpsX(deviceLocation.getLatitude());
+                museum.setGpsY(deviceLocation.getLongitude());
                 
                 museum.setPhotoURL(encodedPhoto);
                 

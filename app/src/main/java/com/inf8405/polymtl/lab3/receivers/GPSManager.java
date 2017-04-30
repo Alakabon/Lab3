@@ -101,7 +101,7 @@ public class GPSManager extends BroadcastReceiver {
     
     //Default values in case of GPS failure
     public static double getDefaultLatitude() {
-        return -45.50461055;
+        return 45.50461055;
     }
     
     public static double getDefaultLongitude() {
