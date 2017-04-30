@@ -1,12 +1,15 @@
 package com.inf8405.polymtl.lab3.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -82,7 +85,16 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                 photo.setImageDrawable(getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
-        
+
+        final String facebookURL = "https://www.facebook.com/sharer/sharer.php?u=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
+        ImageButton facebook = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_info_imageButton));
+        facebook.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
+                startActivity(browserIntent);
+            }
+        });
+
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
