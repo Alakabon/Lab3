@@ -3,6 +3,7 @@ package com.inf8405.polymtl.lab3.managers;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
@@ -154,11 +155,18 @@ public class DatabaseManager {
                         //ArrayList<Artwork> artworks = new ArrayList<>();
                         
                         ArrayList<Artwork> artworks = ((GlobalDataManager) _ctx.getApplicationContext()).get_artworks();
+                        ArrayList<Artwork> favorites = ((GlobalDataManager) _ctx.getApplicationContext()).get_favorites();
+                        HashMap<String,String> favoritesMap = ((GlobalDataManager) _ctx.getApplicationContext()).get_userData().getFavorites();
                         artworks.clear();
+                        favorites.clear();
                         
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Artwork artwork = snapshot.getValue(Artwork.class);
                             artworks.add(artwork);
+                            
+                            if(favoritesMap.containsKey(artwork.getId())){
+                                favorites.add(artwork);
+                            }
                         }
                         ((GlobalDataManager) _ctx.getApplicationContext()).set_artworks(artworks);
                     }
@@ -256,39 +264,6 @@ public class DatabaseManager {
             }
         }
         return false;
-    }
-    
-    public void getFavoriteArtworksData() {
-        if (_loggedIn) {
-            try {
-                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
-                final ArrayList<Artwork> favoritesList = gdm.get_favorites();
-                favoritesList.clear();
-                
-                User currentUser = gdm.get_userData();
-                HashMap<String, String> favorites = currentUser.getFavorites();
-                
-                for (String artworkId : favorites.keySet()) {
-                    DatabaseReference artworkRef = _instance.getReference().child("root").child("artworks").child(artworkId); //TODO Get from id instead
-                    artworkRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() != null) {
-                                Artwork artwork = dataSnapshot.getValue(Artwork.class);
-                                favoritesList.add(artwork);
-                            }
-                        }
-                        
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("getArtwFavorites", "Failed to retrieve favorites from user ", databaseError.toException());
-                        }
-                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
     
     public void syncUser(User dbUser) {

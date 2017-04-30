@@ -1,20 +1,24 @@
 package com.inf8405.polymtl.lab3.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
-import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
+import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.ImageManager;
 
@@ -25,6 +29,7 @@ import static android.R.drawable.ic_menu_camera;
  **/
 public class ViewFavoritesActivity extends AppCompatActivity {
     private final String TAG = "ViewFavoritesActivity";
+    private ArtworkFragmentAdaptor adaptor;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +38,6 @@ public class ViewFavoritesActivity extends AppCompatActivity {
         
         setupListView();
         
-        /* Debug adder to make sure stuff works
-        User user = ((GlobalDataManager) getApplicationContext()).get_userData();
-        Artwork aw1 = ((GlobalDataManager) getApplicationContext()).get_artworks().get(0);
-        Artwork aw2 = ((GlobalDataManager) getApplicationContext()).get_artworks().get(1);
-        Artwork aw3 = ((GlobalDataManager) getApplicationContext()).get_artworks().get(2);
-        
-        ((GlobalDataManager) getApplicationContext()).get_dbManager().addToFavorites(user, aw1);
-        ((GlobalDataManager) getApplicationContext()).get_dbManager().addToFavorites(user, aw2);
-        ((GlobalDataManager) getApplicationContext()).get_dbManager().addToFavorites(user, aw3);
-        
-        ((GlobalDataManager) getApplicationContext()).get_dbManager().removeFromFavorites(user, aw3);
-        */
     }
     
     private void setupListView() {
@@ -52,7 +45,7 @@ public class ViewFavoritesActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.browse_artwork_listview);
         GlobalDataManager gdm = ((GlobalDataManager) getApplicationContext());
         
-        ArtworkFragmentAdaptor adaptor = new ArtworkFragmentAdaptor(getApplicationContext(), ((GlobalDataManager) getApplicationContext()).get_favorites());
+        adaptor = new ArtworkFragmentAdaptor(getApplicationContext(), ((GlobalDataManager) getApplicationContext()).get_favorites());
         
         listView.setAdapter(adaptor);
         ((GlobalDataManager) getApplicationContext()).setFavoritesAdaptor(adaptor);
@@ -65,7 +58,7 @@ public class ViewFavoritesActivity extends AppCompatActivity {
         });
     }
     
-    private void showInfoPopup(Artwork artwork) {
+    private void showInfoPopup(final Artwork artwork) {
         Dialog popupWindow = new Dialog(getWindow().getContext());
         popupWindow.setContentView(R.layout.popup_artwork_info_layout);
         
@@ -97,6 +90,38 @@ public class ViewFavoritesActivity extends AppCompatActivity {
                 photo.setImageDrawable(getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
+    
+        final String facebookURL = "https://www.facebook.com/sharer/sharer.php?u=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
+        ImageButton facebook = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_info_imageButton));
+        facebook.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
+                startActivity(browserIntent);
+            }
+        });
+    
+        final String twitterURL = "https://twitter.com/home?status=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
+        ImageButton twitter = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_twitter_imageButton));
+        twitter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitterURL));
+                startActivity(browserIntent);
+            }
+        });
+        
+        ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
+        favorite.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DatabaseManager dbManager = ((GlobalDataManager) getApplicationContext()).get_dbManager();
+                if (dbManager.removeFromFavorites(artwork)) {
+                    ((GlobalDataManager) getApplicationContext()).get_favorites().remove(artwork);
+                    adaptor.refresh();
+                    Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                }
+            }
+            
+        });
+        
         
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);

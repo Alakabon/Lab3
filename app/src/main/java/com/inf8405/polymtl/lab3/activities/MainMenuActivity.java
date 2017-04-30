@@ -74,6 +74,5 @@ public class MainMenuActivity extends AppCompatActivity {
         // Sync Data to mobile and populate artworks and museums
         ((GlobalDataManager) getApplicationContext()).get_dbManager().retrieveArtworks();
         ((GlobalDataManager) getApplicationContext()).get_dbManager().retrieveMuseums();
-        ((GlobalDataManager) getApplicationContext()).get_dbManager().getFavoriteArtworksData();
     }
 }
