@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private String returnPermission(String permission) {
-        return permission.concat(": ").concat((ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) ? "GRANTED\n" : "DENIED\n").replace("android.permission.","");
+        return permission.concat(": ").concat((ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) ? "GRANTED\n" : "DENIED\n").replace("android.permission.", "");
     }
 
     private void checkPermission() {
@@ -186,6 +186,5 @@ public class LoginActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.txt7)).setText(msg);
     }
-
 }
 

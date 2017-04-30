@@ -23,8 +23,9 @@
         android:layout_marginTop="10dp"
         android:text="@string/add_artwork_frag_name"
         android:textColor="@android:color/black"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/fragment_museum_image"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fragment_museum_description"
