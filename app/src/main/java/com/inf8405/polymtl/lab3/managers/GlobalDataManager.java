@@ -4,15 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.location.Location;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
+import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
 
 import java.util.ArrayList;
 
@@ -27,8 +26,11 @@ public class GlobalDataManager extends Application {
     private Location _deviceLocation;
     private DatabaseManager _dbManager;
     private ArrayList<Artwork> _artworks;
+    private ArrayList<Artwork> _favorites;
     private ArrayList<Museum> _museums;
-    private ListAdapter artworkAdaptor; // Link to adaptor needed to refresh data by GPS
+    private ArtworkFragmentAdaptor artworkAdaptor; // Link to adaptor needed to refresh data by GPS/ DB
+    private ArtworkFragmentAdaptor favoritesAdaptor; // Link to adaptor needed to refresh data by GPS
+    private ArtworkFragmentAdaptor museumAdaptor; // Link to adaptor needed to refresh data by GPS
     private boolean receiversRegistered;
     private int _online_status = -1;
     private int _gps_provider_status = -1;
@@ -39,6 +41,7 @@ public class GlobalDataManager extends Application {
     public GlobalDataManager() {
         _artworks = new ArrayList<>();
         _museums = new ArrayList<>();
+        _favorites = new ArrayList<>();
         receiversRegistered = false;
     }
     
@@ -47,11 +50,38 @@ public class GlobalDataManager extends Application {
         this._dbManager = databaseManager;
     }
     
-    public ListAdapter getArtworkAdaptor() {
+    public ArrayList<Artwork> get_favorites() {
+        return _favorites;
+    }
+    
+    public void set_favorites(ArrayList<Artwork> _favorites) {
+        this._favorites = _favorites;
+        if(favoritesAdaptor != null){
+            favoritesAdaptor.refresh();
+        }
+    }
+    
+    public ArtworkFragmentAdaptor getFavoritesAdaptor() {
+        return favoritesAdaptor;
+    }
+    
+    public void setFavoritesAdaptor(ArtworkFragmentAdaptor favoritesAdaptor) {
+        this.favoritesAdaptor = favoritesAdaptor;
+    }
+    
+    public ArtworkFragmentAdaptor getMuseumAdaptor() {
+        return museumAdaptor;
+    }
+    
+    public void setMuseumAdaptor(ArtworkFragmentAdaptor museumAdaptor) {
+        this.museumAdaptor = museumAdaptor;
+    }
+    
+    public ArtworkFragmentAdaptor getArtworkAdaptor() {
         return artworkAdaptor;
     }
     
-    public void setArtworkAdaptor(ListAdapter artworkAdaptor) {
+    public void setArtworkAdaptor(ArtworkFragmentAdaptor artworkAdaptor) {
         this.artworkAdaptor = artworkAdaptor;
     }
     
@@ -61,6 +91,9 @@ public class GlobalDataManager extends Application {
     
     public void set_museums(ArrayList<Museum> _museums) {
         this._museums = _museums;
+        if(museumAdaptor != null){
+            museumAdaptor.refresh();
+        }
     }
     
     public boolean isReceiversRegistered() {
@@ -78,12 +111,10 @@ public class GlobalDataManager extends Application {
     public void set_deviceLocation(Location _deviceLocation) {
         this._deviceLocation = _deviceLocation;
         if (_deviceLocation != null) {
-            String location = "Longitude: " + _deviceLocation.getLongitude() + "  ,   Latitude: " + _deviceLocation.getLatitude();
             _gps_Latitude = _deviceLocation.getLatitude();
             _gps_Longitude = _deviceLocation.getLongitude();
             if (artworkAdaptor != null) {
-                //Collections.sort(_artworks, new ArtworkDistanceComparator(_deviceLocation));
-                ((BaseAdapter) artworkAdaptor).notifyDataSetChanged();
+                artworkAdaptor.refresh();
             }
         }
     }
@@ -94,6 +125,9 @@ public class GlobalDataManager extends Application {
     
     public void set_artworks(ArrayList<Artwork> _artworks) {
         this._artworks = _artworks;
+        if (artworkAdaptor != null) {
+            artworkAdaptor.refresh();
+        }
     }
     
     public DatabaseManager get_dbManager() {

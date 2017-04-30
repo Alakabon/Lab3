@@ -16,6 +16,7 @@ import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.listeners.UserListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class handles the communication to and from the database using firebase
@@ -150,7 +151,10 @@ public class DatabaseManager {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
-                        final ArrayList<Artwork> artworks = new ArrayList<>();
+                        //ArrayList<Artwork> artworks = new ArrayList<>();
+                        
+                        ArrayList<Artwork> artworks = ((GlobalDataManager) _ctx.getApplicationContext()).get_artworks();
+                        artworks.clear();
                         
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Artwork artwork = snapshot.getValue(Artwork.class);
@@ -180,14 +184,15 @@ public class DatabaseManager {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
-                        final ArrayList<Museum> museums = new ArrayList<>();
+                        ArrayList<Museum> museumList = ((GlobalDataManager) _ctx.getApplicationContext()).get_museums();
+                        museumList.clear();
                         
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Museum museum = snapshot.getValue(Museum.class);
-                            museums.add(museum);
+                            museumList.add(museum);
                         }
                         
-                        ((GlobalDataManager) _ctx.getApplicationContext()).set_museums(museums);
+                        ((GlobalDataManager) _ctx.getApplicationContext()).set_museums(museumList);
                     }
                 }
                 
@@ -199,6 +204,64 @@ public class DatabaseManager {
             });
         } catch (DatabaseException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void addToFavorites(User dbUser, Artwork artwork) {
+        if (_loggedIn) {
+            try {
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
+                favRef.child(artwork.getName()).setValue(artwork.getId());
+                
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void removeFromFavorites(User dbUser, Artwork artwork) {
+        if (_loggedIn) {
+            try {
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
+                favRef.child(artwork.getName()).removeValue();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void getFavoriteArtworksData() {
+        if (_loggedIn) {
+            try {
+                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
+                final ArrayList<Artwork> favoritesList = gdm.get_favorites();
+                favoritesList.clear();
+                
+                User currentUser = gdm.get_userData();
+                HashMap<String, String> favorites = currentUser.getFavorites();
+                
+                for (String artworkName : favorites.keySet()) {
+                    DatabaseReference artworkRef = _instance.getReference().child("root").child("artworks").child(artworkName);
+                    artworkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() != null) {
+                                Artwork artwork = dataSnapshot.getValue(Artwork.class);
+                                favoritesList.add(artwork);
+                            }
+                        }
+                        
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("getArtwFavorites", "Failed to retrieve favorites from user ", databaseError.toException());
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -220,6 +283,7 @@ public class DatabaseManager {
                 User currentUser = ((GlobalDataManager) _ctx).get_userData();
                 DatabaseReference userRef = _instance.getReference().child("root").child("users").child(currentUser.getName());
                 userRef.removeEventListener(userListener);
+                _loggedIn = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }

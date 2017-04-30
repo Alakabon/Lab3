@@ -59,4 +59,8 @@ public class MuseumFragmentAdaptor extends ArrayAdapter<Museum> {
         
         return convertView;
     }
+    
+    public void refresh() {
+        this.notifyDataSetChanged();
+    }
 }

@@ -17,8 +17,6 @@ import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.ImageManager;
 
-import java.util.ArrayList;
-
 import static android.R.drawable.ic_menu_camera;
 
 
@@ -36,10 +34,13 @@ public class BrowseArtworkActivity extends AppCompatActivity {
     private void setupListView() {
     
         final ListView listView = (ListView) findViewById(R.id.browse_artwork_listview);
+        GlobalDataManager gdm = ((GlobalDataManager) getApplicationContext());
         
-        listView.setAdapter(new ArtworkFragmentAdaptor(getApplicationContext(),  ((GlobalDataManager) getApplicationContext()).get_artworks()));
+        ArtworkFragmentAdaptor adaptor = new ArtworkFragmentAdaptor(getApplicationContext(),  ((GlobalDataManager) getApplicationContext()).get_artworks());
         
-        ((GlobalDataManager) getApplicationContext()).setArtworkAdaptor(listView.getAdapter());
+        listView.setAdapter(adaptor);
+        ((GlobalDataManager) getApplicationContext()).setArtworkAdaptor(adaptor);
+        
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {

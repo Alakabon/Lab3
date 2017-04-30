@@ -2,7 +2,6 @@ package com.inf8405.polymtl.lab3.fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,11 @@ import static android.R.drawable.ic_menu_camera;
  **/
 public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
     
+    private ArrayList<Artwork> artworks;
+    
     public ArtworkFragmentAdaptor(Context context, ArrayList<Artwork> artworks) {
         super(context, 0, artworks);
+        this.artworks = artworks;
     }
     
     @Override
@@ -55,16 +57,15 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         
         // Set fields
         nameField.setText(artwork.getName());
-        Log.v("ArtworkFragment", "Name=" + artwork.getName());
         descriptionField.setText(artwork.getDescription());
-        Log.v("ArtworkFragment", "Description=" + artwork.getDescription());
         
         // Return the completed view to render on screen
         return convertView;
     }
     
-    @Override
-    public int getCount() {
-        return super.getCount();
+    public void refresh() {
+        this.notifyDataSetChanged();
     }
+    
+    
 }

@@ -13,9 +13,9 @@ import java.util.Comparator;
  **/
 public class ArtworkDistanceComparator implements Comparator<Artwork> {
     private static final String TAG = "ArtworkDistanceComparator";
-    double deviceLocation;
+    Location deviceLocation;
     
-    public ArtworkDistanceComparator(double deviceLocation) {
+    public ArtworkDistanceComparator(Location deviceLocation) {
         this.deviceLocation = deviceLocation;
     }
     
@@ -23,9 +23,23 @@ public class ArtworkDistanceComparator implements Comparator<Artwork> {
     public int compare(Artwork left, Artwork right) {
         Location leftLocation = new Location(TAG);
         Location rightLocation = new Location(TAG);
+
+        leftLocation.setLatitude(left.getGpsY());
+        leftLocation.setLongitude(left.getGpsX());
+        rightLocation.setLatitude(left.getGpsY());
+        rightLocation.setLongitude(left.getGpsX());
         
-        //double distanceDeviceLeft = Location.distanceTo(deviceLocation);
+        float distanceDeviceLeft = deviceLocation.distanceTo(leftLocation);
+        float distanceDeviceRight = deviceLocation.distanceTo(rightLocation);
         
-        return 0;
+        if(distanceDeviceLeft > distanceDeviceRight){
+            return 1;
+        }
+        else if(distanceDeviceLeft < distanceDeviceRight ){
+            return -1;
+        }
+        else{
+            return 0;
+        }
     }
 }

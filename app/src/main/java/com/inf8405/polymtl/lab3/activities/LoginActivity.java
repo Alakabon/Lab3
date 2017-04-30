@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             DatabaseManager dbManager = new DatabaseManager(this);
             ((GlobalDataManager) getApplicationContext()).set_dbManager(dbManager);
         } else {
-            _gdm.get_dbManager().set_loggedIn(false);
+            _gdm.get_dbManager().logOff();
         }
 
         if (!_gdm.isReceiversRegistered()) {
