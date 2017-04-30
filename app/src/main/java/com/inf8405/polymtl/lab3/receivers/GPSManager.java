@@ -14,10 +14,14 @@ import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
 public class GPSManager extends BroadcastReceiver {
     private static final String TAG = "GPSManager";
+    
+    private static final double default_latitude = 45.50461055;
+    private static final double default_longitude = -73.61444413;
+    
     private Context _ctx;
     private boolean _isProviderEnabled;
     private LocationManager _lm;
-
+    
     //___________________________________________________________________________________________________________________________________//
     public GPSManager(Context ctx) {
         _ctx = ctx;
@@ -31,7 +35,7 @@ public class GPSManager extends BroadcastReceiver {
                     // Minimum time interval between location updates, in milliseconds
                     // Default values will get continues location but it drown the battery
                     // Therefore, we will check if in low battery mode and change interval to 1 minutes instead of 10 seconds
-                    int _minTime = ((GlobalDataManager) ctx.getApplicationContext()).get_battery_level()<= 15 ? 10 * 1000 : 60 * 1000;
+                    int _minTime = ((GlobalDataManager) ctx.getApplicationContext()).get_battery_level() <= 15 ? 10 * 1000 : 60 * 1000;
                     
                     //Implementing LocationListener for concurrent location updates based in defined intervals
                     _lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, _minTime, 100, new LocationListener() {
@@ -93,5 +97,14 @@ public class GPSManager extends BroadcastReceiver {
             ex.printStackTrace();
             return -1;
         }
+    }
+    
+    //Default values in case of GPS failure
+    public static double getDefaultLatitude() {
+        return -45.50461055;
+    }
+    
+    public static double getDefaultLongitude() {
+        return -73.61444413;
     }
 }

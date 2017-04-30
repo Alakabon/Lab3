@@ -114,6 +114,10 @@ public class AddMuseumActivity extends AppCompatActivity {
                     museum.setGpsX(deviceLocation.getLongitude());
                     museum.setGpsY(deviceLocation.getLatitude());
                 }
+                else {
+                    museum.setGpsX(GPSManager.getDefaultLongitude());
+                    museum.setGpsX(GPSManager.getDefaultLatitude());
+                }
     
                 museum.setPhotoURL(encodedPhoto);
                 
