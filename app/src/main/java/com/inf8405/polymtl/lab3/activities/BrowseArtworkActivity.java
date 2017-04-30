@@ -95,6 +95,15 @@ public class BrowseArtworkActivity extends AppCompatActivity {
             }
         });
 
+        final String twitterURL = "https://twitter.com/home?status=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
+        ImageButton twitter = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_twitter_imageButton));
+        twitter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitterURL));
+                startActivity(browserIntent);
+            }
+        });
+
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
