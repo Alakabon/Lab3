@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
-import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
 import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
@@ -107,11 +106,10 @@ public class BrowseArtworkActivity extends AppCompatActivity {
             }
         });
         
-        ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
+        final ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
         favorite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DatabaseManager dbManager = ((GlobalDataManager) getApplicationContext()).get_dbManager();
-                
                 if (dbManager.isArtworkFavorited(artwork)) {
                     if (dbManager.removeFromFavorites(artwork)) {
                         ((GlobalDataManager) getApplicationContext()).get_favorites().remove(artwork);
@@ -124,12 +122,31 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
+                adjustFavoritesIcon(artwork,favorite);
             }
         });
         
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
+    }
+    
+    private void adjustFavoritesIcon(final Artwork artwork, final ImageButton favorite){
+        DatabaseManager dbManager = ((GlobalDataManager) getApplicationContext()).get_dbManager();
+        if(dbManager.isArtworkFavorited(artwork)){
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                favorite.setImageDrawable(getApplicationContext().getDrawable(R.drawable.favorite_off));
+            } else {
+                favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_off));
+            }
+        }
+        else{
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                favorite.setImageDrawable(getApplicationContext().getDrawable(R.drawable.favorite));
+            } else {
+                favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
+            }
+        }
     }
     
 }
