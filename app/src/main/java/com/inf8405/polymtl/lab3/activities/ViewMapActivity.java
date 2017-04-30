@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.utilities.PermissionUtils;
 
@@ -109,6 +110,7 @@ public class ViewMapActivity extends AppCompatActivity implements
     private void updateMarkers()
     {
         _map.clear();
+        // Populating artworks' markers on the map
         for (Artwork artwork : _gdm.get_artworks())
         {
             _map.addMarker(new MarkerOptions()
@@ -116,6 +118,15 @@ public class ViewMapActivity extends AppCompatActivity implements
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                     .title(artwork.getName())
                     .snippet(artwork.getDescription()));
+        }
+        // Populating museums' markers on the map
+        for (Museum museum : _gdm.get_museums())
+        {
+            _map.addMarker(new MarkerOptions()
+                    .position(new LatLng(museum.getGpsX(), museum.getGpsY()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                    .title(museum.getName())
+                    .snippet(museum.getDescription()));
         }
     }
 }
