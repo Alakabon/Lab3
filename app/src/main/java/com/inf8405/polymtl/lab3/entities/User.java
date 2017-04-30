@@ -2,6 +2,11 @@ package com.inf8405.polymtl.lab3.entities;
 
 import android.location.Location;
 
+/**
+ * Class used to store the user's info
+ * The favorites are only stored locally, not pushed to firebase
+ **/
+
 public class User {
     private static final String TAG = "User";
     

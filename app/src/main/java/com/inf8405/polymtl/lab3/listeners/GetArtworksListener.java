@@ -23,6 +23,14 @@ import java.util.ArrayList;
 
 import static android.R.drawable.ic_menu_camera;
 
+/**
+ * Listener used to make sure the data retrieval is synced with the app's state
+ * The onSuccess method is responsible for updating the local list of artworks and
+ * applying the FragmentAdaptor to set the right fields in the right place
+ *
+ * Also responsible for the setup of the pop-ups once the list established by the use of
+ * setOnItemClickListener
+ **/
 public class GetArtworksListener implements GetDataListener {
     private static final String TAG = "GetArtworksListner";
     
@@ -51,11 +59,6 @@ public class GetArtworksListener implements GetDataListener {
     }
     
     @Override
-    public void onStart() {
-        
-    }
-    
-    @Override
     public void onSuccess(DataSnapshot dataSnapshot) {
         final ArrayList<Artwork> artworks = new ArrayList<>();
         
@@ -67,13 +70,12 @@ public class GetArtworksListener implements GetDataListener {
         ((GlobalDataManager) ctx.getApplicationContext()).set_artworks(artworks);
         
         final ListView listView = (ListView) browseActivity.findViewById(R.id.browse_artwork_listview);
-        
         listView.setAdapter(new ArtworkFragmentAdaptor(browseActivity.getApplicationContext(), artworks));
-        
+        ((GlobalDataManager) ctx.getApplicationContext()).setArtworkAdaptor(listView.getAdapter());
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
-                showInfoPopup((Artwork)listView.getAdapter().getItem(pos));
+                showInfoPopup((Artwork) listView.getAdapter().getItem(pos));
             }
         });
     }
@@ -83,31 +85,30 @@ public class GetArtworksListener implements GetDataListener {
         Log.w(TAG, "Failed to retrieve artworks ", databaseError.toException());
     }
     
-    private void showInfoPopup(Artwork artwork){
+    private void showInfoPopup(Artwork artwork) {
         Dialog popupWindow = new Dialog(browseActivity.getWindow().getContext());
-        popupWindow.setContentView(R.layout.popup_info_layout);
-    
+        popupWindow.setContentView(R.layout.popup_artwork_info_layout);
+        
         // Setting fields
-        TextView name = (TextView) popupWindow.findViewById(R.id.popup_info_name);
+        TextView name = (TextView) popupWindow.findViewById(R.id.popup_artwork_info_name);
         name.setText(artwork.getName());
-    
-        TextView description = (TextView) popupWindow.findViewById(R.id.popup_info_description);
+        
+        TextView description = (TextView) popupWindow.findViewById(R.id.popup_artwork_info_description);
         description.setText(artwork.getDescription());
-    
+        
         Bitmap decodedPhoto = ImageManager.decodeImageFromString(artwork.getPhotoURL());
-        ImageView photo = (ImageView) popupWindow.findViewById(R.id.popup_info_image);
-    
-        if( decodedPhoto != null){
+        ImageView photo = (ImageView) popupWindow.findViewById(R.id.popup_artwork_info_image);
+        
+        if (decodedPhoto != null) {
             photo.setImageBitmap(decodedPhoto);
-        }
-        else{
+        } else {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 photo.setImageDrawable(browseActivity.getApplicationContext().getDrawable(ic_menu_camera));
             } else {
                 photo.setImageDrawable(browseActivity.getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
-    
+        
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();

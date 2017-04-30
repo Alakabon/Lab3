@@ -1,12 +1,15 @@
 package com.inf8405.polymtl.lab3.entities;
 
-import android.location.Location;
 import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 
+/**
+ * Class used to store the info on Artworks, the bread and butter the app revolves around
+ * Location is kept as 2 doubles to simplify the firebase extraction
+ **/
 public class Artwork {
     private static final String TAG = "Artwork";
     
@@ -19,7 +22,6 @@ public class Artwork {
     
     private HashMap<String, Integer> ratings;
     private Double averageRating;
-    private HashMap<String, String> comments;
     
     public Artwork() {
     }
@@ -39,7 +41,6 @@ public class Artwork {
         this.gpsY = gpsY;
         this.ratings = ratings;
         this.averageRating = averageRating;
-        this.comments = comments;
     }
     
     public Double getGpsX() {
@@ -104,14 +105,6 @@ public class Artwork {
     
     public void setAverageRating(Double averageRating) {
         this.averageRating = averageRating;
-    }
-    
-    public HashMap<String, String> getComments() {
-        return comments;
-    }
-    
-    public void setComments(HashMap<String, String> comments) {
-        this.comments = comments;
     }
     
     @Exclude

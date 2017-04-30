@@ -10,12 +10,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
+import com.inf8405.polymtl.lab3.listeners.GetMuseumListener;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.listeners.UserListener;
-
-import java.util.ArrayList;
 
 /**
  * This class handles the communication to and from the database using firebase
@@ -28,22 +28,13 @@ public class DatabaseManager {
     private ValueEventListener userListener;
     private Context _ctx;
     private boolean _loggedIn;
-    private ArrayList<Artwork> artworks;
+    
     
     public DatabaseManager(Context ctx) {
         _ctx = ctx;
         _loggedIn = false;
-        artworks = new ArrayList<>();
         _instance = FirebaseDatabase.getInstance();
         userListener = new UserListener(_ctx);
-    }
-    
-    public ArrayList<Artwork> getArtworks() {
-        return artworks;
-    }
-    
-    public void setArtworks(ArrayList<Artwork> artworks) {
-        this.artworks = artworks;
     }
     
     public FirebaseDatabase get_instance() {
@@ -133,10 +124,26 @@ public class DatabaseManager {
         return false;
     }
     
+    public boolean addMuseum(Museum museum) {
+        
+        try {
+            DatabaseReference insertRef = _instance.getReference().child("root").child("museums").child(museum.getName());
+            
+            String pushId = insertRef.push().getKey();
+            museum.setId(pushId);
+            
+            insertRef.setValue(museum);
+            
+            return true;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
     public void retrieveArtworks(final GetArtworksListener getArtworksListener) {
         try {
             DatabaseReference userRef = _instance.getReference().child("root").child("artworks");
-            final ArrayList<Artwork> tempArtworks = new ArrayList<>();
             // Read from the database
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -144,6 +151,30 @@ public class DatabaseManager {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
                         getArtworksListener.onSuccess(dataSnapshot);
+                    }
+                }
+                
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG + ":getArtw", "Failed to retrieve artworks ", error.toException());
+                }
+            });
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void retrieveMuseums(final GetMuseumListener getMuseumListener) {
+        try {
+            DatabaseReference userRef = _instance.getReference().child("root").child("museums");
+            // Read from the database
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //getDataListener.onSuccess(dataSnapshot);
+                    if (dataSnapshot.getValue() != null) {
+                        getMuseumListener.onSuccess(dataSnapshot);
                     }
                 }
                 
