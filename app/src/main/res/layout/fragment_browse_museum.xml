@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/fragment_artwork_image"
+        android:id="@+id/fragment_museum_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/ic_launcher"
@@ -16,26 +16,26 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
-        android:id="@+id/fragment_artwork_name"
+        android:id="@+id/fragment_museum_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/add_artwork_frag_name"
         android:textColor="@android:color/black"
-        app:layout_constraintLeft_toRightOf="@+id/fragment_artwork_image"
+        app:layout_constraintLeft_toRightOf="@+id/fragment_museum_image"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/fragment_artwork_description"
+        android:id="@+id/fragment_museum_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/add_artwork_frag_desc"
         android:textColor="@android:color/black"
-        app:layout_constraintLeft_toRightOf="@+id/fragment_artwork_image"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_artwork_name"/>
+        app:layout_constraintLeft_toRightOf="@+id/fragment_museum_image"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_museum_name"/>
 
 
 </android.support.constraint.ConstraintLayout>

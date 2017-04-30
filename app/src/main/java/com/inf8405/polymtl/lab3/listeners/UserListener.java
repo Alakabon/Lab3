@@ -9,6 +9,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
+/**
+ * Class responsible for setting the user data with a proper sync
+ **/
+
 public class UserListener implements ValueEventListener {
     private Context _ctx;
     

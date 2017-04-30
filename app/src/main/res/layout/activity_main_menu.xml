@@ -1,56 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.inf8405.polymtl.lab3.activities.MainMenuActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/main_menu_btn_add_artwork"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_add_artwork"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.inf8405.polymtl.lab3.activities.MainMenuActivity">
 
-    <Button
-        android:id="@+id/main_menu_btn_browse_artwork"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_browse_artwork"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_add_artwork"
-        />
+        <Button
+            android:id="@+id/main_menu_btn_add_artwork"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_add_artwork"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-    <Button
-        android:id="@+id/main_menu_btn_view_favorite"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_view_favorites"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_browse_artwork"/>
+        <Button
+            android:id="@+id/main_menu_btn_add_museum"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_add_museum"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_add_artwork"
+            />
 
-    <Button
-        android:id="@+id/main_menu_btn_view_map"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_view_map"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_view_favorite"/>
+        <Button
+            android:id="@+id/main_menu_btn_browse_artwork"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_browse_artwork"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_add_museum"
+            />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/main_menu_btn_browse_museums"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_browse_museums"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_browse_artwork"
+            />
+
+        <Button
+            android:id="@+id/main_menu_btn_view_map"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_view_map"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_browse_museums"/>
+
+        <Button
+            android:id="@+id/main_menu_btn_view_favorite"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/main_menu_btn_view_favorites"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_view_map"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

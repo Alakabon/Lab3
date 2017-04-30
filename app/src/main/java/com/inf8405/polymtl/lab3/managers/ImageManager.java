@@ -32,7 +32,7 @@ public final class ImageManager {
     }
     
     public static Bitmap decodeImageFromString(String image){
-        if (image.equals(noPicture)){
+        if (image == null || image.equals(noPicture)){
             return null;
         }
         byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
