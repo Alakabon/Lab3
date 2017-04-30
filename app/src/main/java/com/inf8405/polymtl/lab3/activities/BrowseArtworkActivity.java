@@ -65,6 +65,7 @@ public class BrowseArtworkActivity extends AppCompatActivity {
         artworkLocation.setLatitude(artwork.getGpsY());
         artworkLocation.setLongitude(artwork.getGpsX());
         Location currentLocation = ((GlobalDataManager) (getApplicationContext())).get_deviceLocation();
+        
         float fDistance = currentLocation.distanceTo(artworkLocation) / 1000; //Distance in meters, divide by 1000 to get KM
         
         distance.setText(String.format(java.util.Locale.US, " Distance de %.2f KM", fDistance));
