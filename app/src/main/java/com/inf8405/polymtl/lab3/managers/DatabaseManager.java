@@ -207,29 +207,55 @@ public class DatabaseManager {
         }
     }
     
-    public void addToFavorites(User dbUser, Artwork artwork) {
+    public boolean isArtworkFavorited(Artwork artwork) {
         if (_loggedIn) {
             try {
-                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
-                favRef.child(artwork.getName()).setValue(artwork.getId());
+                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
+                HashMap<String, String> currentFavorites = gdm.get_userData().getFavorites();
                 
+                if (currentFavorites.containsKey(artwork.getId())) {
+                    return true;
+                } else {
+                    return false;
+                }
                 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
     
-    public void removeFromFavorites(User dbUser, Artwork artwork) {
+    public boolean addToFavorites(Artwork artwork) {
         if (_loggedIn) {
             try {
-                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
-                favRef.child(artwork.getName()).removeValue();
+                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(gdm.get_userData().getName()).child("favorites");
+                favRef.child(artwork.getId()).setValue(artwork.getName());
+                return true;
                 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
+        return false;
+    }
+    
+    public boolean removeFromFavorites(Artwork artwork) {
+        if (_loggedIn) {
+            try {
+                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(gdm.get_userData().getName()).child("favorites");
+                favRef.child(artwork.getId()).removeValue();
+                return true;
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
     
     public void getFavoriteArtworksData() {
@@ -242,8 +268,8 @@ public class DatabaseManager {
                 User currentUser = gdm.get_userData();
                 HashMap<String, String> favorites = currentUser.getFavorites();
                 
-                for (String artworkName : favorites.keySet()) {
-                    DatabaseReference artworkRef = _instance.getReference().child("root").child("artworks").child(artworkName);
+                for (String artworkId : favorites.keySet()) {
+                    DatabaseReference artworkRef = _instance.getReference().child("root").child("artworks").child(artworkId); //TODO Get from id instead
                     artworkRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {

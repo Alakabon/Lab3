@@ -13,10 +13,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
+import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.ImageManager;
 
@@ -30,16 +33,16 @@ public class BrowseArtworkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_artwork);
-    
+        
         setupListView();
     }
     
     private void setupListView() {
-    
+        
         final ListView listView = (ListView) findViewById(R.id.browse_artwork_listview);
         GlobalDataManager gdm = ((GlobalDataManager) getApplicationContext());
         
-        ArtworkFragmentAdaptor adaptor = new ArtworkFragmentAdaptor(getApplicationContext(),  ((GlobalDataManager) getApplicationContext()).get_artworks());
+        ArtworkFragmentAdaptor adaptor = new ArtworkFragmentAdaptor(getApplicationContext(), ((GlobalDataManager) getApplicationContext()).get_artworks());
         
         listView.setAdapter(adaptor);
         ((GlobalDataManager) getApplicationContext()).setArtworkAdaptor(adaptor);
@@ -52,7 +55,7 @@ public class BrowseArtworkActivity extends AppCompatActivity {
         });
     }
     
-    private void showInfoPopup(Artwork artwork) {
+    private void showInfoPopup(final Artwork artwork) {
         Dialog popupWindow = new Dialog(getWindow().getContext());
         popupWindow.setContentView(R.layout.popup_artwork_info_layout);
         
@@ -85,7 +88,7 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                 photo.setImageDrawable(getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
-
+        
         final String facebookURL = "https://www.facebook.com/sharer/sharer.php?u=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
         ImageButton facebook = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_info_imageButton));
         facebook.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +97,7 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-
+        
         final String twitterURL = "https://twitter.com/home?status=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
         ImageButton twitter = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_twitter_imageButton));
         twitter.setOnClickListener(new View.OnClickListener() {
@@ -103,14 +106,25 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-
+        
         ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
         favorite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO: adding item to favorit
+                DatabaseManager dbManager = ((GlobalDataManager) getApplicationContext()).get_dbManager();
+                
+                if (dbManager.isArtworkFavorited(artwork)) {
+                    if (dbManager.removeFromFavorites(artwork)) {
+                        Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    if (dbManager.addToFavorites(artwork)) {
+                        Toast.makeText(getApplicationContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
-
+        
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
