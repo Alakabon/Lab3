@@ -23,11 +23,11 @@ public class ArtworkDistanceComparator implements Comparator<Artwork> {
     public int compare(Artwork left, Artwork right) {
         Location leftLocation = new Location(TAG);
         Location rightLocation = new Location(TAG);
-
-        leftLocation.setLatitude(left.getGpsY());
-        leftLocation.setLongitude(left.getGpsX());
-        rightLocation.setLatitude(left.getGpsY());
-        rightLocation.setLongitude(left.getGpsX());
+        
+        leftLocation.setLatitude(left.getGpsX());
+        leftLocation.setLongitude(left.getGpsY());
+        rightLocation.setLatitude(left.getGpsX());
+        rightLocation.setLongitude(left.getGpsY());
         
         float distanceDeviceLeft = deviceLocation.distanceTo(leftLocation);
         float distanceDeviceRight = deviceLocation.distanceTo(rightLocation);
