@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.inf8405.polymtl.lab3.R;
-import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
@@ -24,7 +23,6 @@ import com.inf8405.polymtl.lab3.managers.ImageManager;
 import com.inf8405.polymtl.lab3.receivers.GPSManager;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 import static android.R.drawable.ic_menu_camera;
 
@@ -96,13 +94,13 @@ public class AddMuseumActivity extends AppCompatActivity {
                 
                 EditText descriptionField = (EditText) findViewById(R.id.add_museum_description);
                 String description = descriptionField.getText().toString();
-    
+                
                 EditText addressField = (EditText) findViewById(R.id.add_museum_address);
                 String address = addressField.getText().toString();
                 
                 ImageView photo = (ImageView) findViewById(R.id.add_museum_image);
                 String encodedPhoto = ImageManager.encodeImageToString(((BitmapDrawable) photo.getDrawable()).getBitmap());
-    
+                
                 museum.setName(name);
                 museum.setDescription(description);
                 museum.setAddress(address);
@@ -110,15 +108,9 @@ public class AddMuseumActivity extends AppCompatActivity {
                 GPSManager.getLatestGPSLocation(getApplicationContext());
                 Location deviceLocation = _gdm.get_deviceLocation();
                 
-                if (deviceLocation != null) {
-                    museum.setGpsX(deviceLocation.getLongitude());
-                    museum.setGpsY(deviceLocation.getLatitude());
-                }
-                else {
-                    museum.setGpsX(GPSManager.getDefaultLongitude());
-                    museum.setGpsX(GPSManager.getDefaultLatitude());
-                }
-    
+                museum.setGpsX(deviceLocation.getLongitude());
+                museum.setGpsY(deviceLocation.getLatitude());
+                
                 museum.setPhotoURL(encodedPhoto);
                 
                 boolean success = _gdm.get_dbManager().addMuseum(museum);
@@ -143,7 +135,7 @@ public class AddMuseumActivity extends AppCompatActivity {
         
         EditText descriptionField = (EditText) findViewById(R.id.add_museum_description);
         descriptionField.setText(getString(R.string.add_museum_description));
-    
+        
         EditText addressField = (EditText) findViewById(R.id.add_museum_address);
         addressField.setText(getString(R.string.add_museum_address));
         
@@ -185,7 +177,7 @@ public class AddMuseumActivity extends AppCompatActivity {
         ((ImageView) findViewById(R.id.add_museum_image)).setTag(Base64.encodeToString(_stream.toByteArray(), Base64.DEFAULT));
     }
     
-    private void addDefaultMuseums(){
+    private void addDefaultMuseums() {
         
         DatabaseManager dbManager = _gdm.get_dbManager();
         

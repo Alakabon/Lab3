@@ -12,6 +12,7 @@ import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.fragments.ArtworkFragmentAdaptor;
+import com.inf8405.polymtl.lab3.receivers.GPSManager;
 
 import java.util.ArrayList;
 
@@ -105,6 +106,11 @@ public class GlobalDataManager extends Application {
     }
     
     public Location get_deviceLocation() {
+        if (_deviceLocation == null){
+            _deviceLocation = new Location(TAG);
+            _deviceLocation.setLatitude((GPSManager.getDefaultLatitude()));
+            _deviceLocation.setLongitude((GPSManager.getDefaultLongitude()));
+        }
         return _deviceLocation;
     }
     
