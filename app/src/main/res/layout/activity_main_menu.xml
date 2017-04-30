@@ -24,6 +24,7 @@
 
             <ImageButton
                 android:id="@+id/main_menu_btn_add_artwork"
+                android:contentDescription="@string/add_artwork_btn_add_artwork"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -36,6 +37,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/main_menu_btn_browse_artwork"
                 android:src="@drawable/search" />
         </TableRow>
 
@@ -52,6 +54,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/main_menu_btn_view_favorites"
                 android:src="@drawable/fav" />
 
             <ImageButton
@@ -60,6 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/main_menu_btn_view_map"
                 android:src="@drawable/map" />
         </TableRow>
 
@@ -75,6 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/reserved" />
 
             <ImageButton
@@ -82,6 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/reserved" />
         </TableRow>
 
