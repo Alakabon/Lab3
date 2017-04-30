@@ -15,6 +15,7 @@ public class Collection {
     private HashMap<String, String> artworkIds; // Ugly at the moment since it's a duplication but firebase hates arrays... Open to better ideas
     
     public Collection() {
+        artworkIds = new HashMap<>();
     }
     
     public Collection(HashMap<String, String> artworkIds) {

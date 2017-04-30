@@ -1,10 +1,8 @@
 package com.inf8405.polymtl.lab3.entities;
 
-import android.location.Location;
-
 /**
  * Class used to store the user's info
- * The favorites are only stored locally, not pushed to firebase
+ * The favorites are only stored on firebase, not locally
  **/
 
 public class User {
@@ -23,14 +21,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.favorites = null;
-    }
-    
-    public User(String id, String name, String password, Location location, Collection favorites) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.favorites = favorites;
+        this.favorites = new Collection();
     }
     
     public String getId() {
