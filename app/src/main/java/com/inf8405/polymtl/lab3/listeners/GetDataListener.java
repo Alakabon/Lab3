@@ -8,5 +8,6 @@ import com.google.firebase.database.DatabaseError;
  **/
 public interface GetDataListener {
     void onSuccess(DataSnapshot dataSnapshot);
+    
     void onFailed(DatabaseError databaseError);
 }

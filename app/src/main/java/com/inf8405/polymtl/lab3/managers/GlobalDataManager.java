@@ -8,17 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.inf8405.polymtl.lab3.R;
-import com.inf8405.polymtl.lab3.comparators.ArtworkDistanceComparator;
 import com.inf8405.polymtl.lab3.entities.Artwork;
-import com.inf8405.polymtl.lab3.entities.Collection;
 import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class handles the local data and keeps it alive in between activities
@@ -85,9 +81,9 @@ public class GlobalDataManager extends Application {
             String location = "Longitude: " + _deviceLocation.getLongitude() + "  ,   Latitude: " + _deviceLocation.getLatitude();
             _gps_Latitude = _deviceLocation.getLatitude();
             _gps_Longitude = _deviceLocation.getLongitude();
-            if(artworkAdaptor!= null){
+            if (artworkAdaptor != null) {
                 //Collections.sort(_artworks, new ArtworkDistanceComparator(_deviceLocation));
-                ((BaseAdapter)artworkAdaptor).notifyDataSetChanged();
+                ((BaseAdapter) artworkAdaptor).notifyDataSetChanged();
             }
         }
     }

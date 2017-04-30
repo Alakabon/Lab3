@@ -12,10 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
 import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
-import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
-import com.inf8405.polymtl.lab3.listeners.GetMuseumListener;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.listeners.UserListener;
+
+import java.util.ArrayList;
 
 /**
  * This class handles the communication to and from the database using firebase
@@ -141,7 +141,7 @@ public class DatabaseManager {
         return false;
     }
     
-    public void retrieveArtworks(final GetArtworksListener getArtworksListener) {
+    public void retrieveArtworks() {
         try {
             DatabaseReference userRef = _instance.getReference().child("root").child("artworks");
             // Read from the database
@@ -150,7 +150,13 @@ public class DatabaseManager {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
-                        getArtworksListener.onSuccess(dataSnapshot);
+                        final ArrayList<Artwork> artworks = new ArrayList<>();
+                        
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Artwork artwork = snapshot.getValue(Artwork.class);
+                            artworks.add(artwork);
+                        }
+                        ((GlobalDataManager) _ctx.getApplicationContext()).set_artworks(artworks);
                     }
                 }
                 
@@ -165,7 +171,7 @@ public class DatabaseManager {
         }
     }
     
-    public void retrieveMuseums(final GetMuseumListener getMuseumListener) {
+    public void retrieveMuseums() {
         try {
             DatabaseReference userRef = _instance.getReference().child("root").child("museums");
             // Read from the database
@@ -174,7 +180,14 @@ public class DatabaseManager {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
-                        getMuseumListener.onSuccess(dataSnapshot);
+                        final ArrayList<Museum> museums = new ArrayList<>();
+                        
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Museum museum = snapshot.getValue(Museum.class);
+                            museums.add(museum);
+                        }
+                        
+                        ((GlobalDataManager) _ctx.getApplicationContext()).set_museums(museums);
                     }
                 }
                 

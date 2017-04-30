@@ -56,8 +56,8 @@ public class LoginListener implements GetDataListener {
         String dbPassword = PasswordManager.decryptPassword(dbUser.getPassword());
         
         if (plainPassword.equals(dbPassword)) {
-            ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().set_loggedIn(true);
-            ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().syncUser(dbUser);
+            ((GlobalDataManager) ctx.getApplicationContext()).get_dbManager().set_loggedIn(true);
+            ((GlobalDataManager) ctx.getApplicationContext()).get_dbManager().syncUser(dbUser);
             Intent intent = new Intent(ctx, MainMenuActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);

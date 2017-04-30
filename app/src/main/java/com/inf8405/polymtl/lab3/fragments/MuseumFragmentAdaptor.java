@@ -19,6 +19,7 @@ import static android.R.drawable.ic_menu_camera;
 
 /**
  * For the moment being, this is essentially a 1:1 copy of
+ *
  * @see ArtworkFragmentAdaptor
  * In theory the fields could be different but in our case they are not...
  * That being said, given that the names of the views are different this class is needed
@@ -36,10 +37,10 @@ public class MuseumFragmentAdaptor extends ArrayAdapter<Museum> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_browse_museum, parent, false);
         }
-
+        
         TextView nameField = (TextView) convertView.findViewById(R.id.fragment_museum_name);
         TextView descriptionField = (TextView) convertView.findViewById(R.id.fragment_museum_description);
-
+        
         Bitmap decodedPhoto = ImageManager.decodeImageFromString(museum.getPhotoURL());
         ImageView photo = (ImageView) convertView.findViewById(R.id.fragment_museum_image);
         

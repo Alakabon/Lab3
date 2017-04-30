@@ -3,6 +3,7 @@ package com.inf8405.polymtl.lab3.entities;
 /**
  * Class used to store info on Museums
  * Very similar to
+ *
  * @see Artwork in it's content  but has an adress string and no ratings
  **/
 public class Museum {

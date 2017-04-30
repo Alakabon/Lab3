@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.inf8405.polymtl.lab3.R;
+import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
 public class MainMenuActivity extends AppCompatActivity {
     
@@ -14,8 +15,8 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-    
+        
+        
         ImageButton addArtworkBtn = (ImageButton) findViewById(R.id.main_menu_btn_add_artwork);
         addArtworkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    
+        
         ImageButton browseMuseumBtn = (ImageButton) findViewById(R.id.main_menu_btn_browse_museums);
         browseMuseumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        
         ImageButton browseArtworkBtn = (ImageButton) findViewById(R.id.main_menu_btn_browse_artwork);
         browseArtworkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +52,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        
         ImageButton viewFavoritesBtn = (ImageButton) findViewById(R.id.main_menu_btn_view_favorite);
         viewFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        
         ImageButton viewMapBtn = (ImageButton) findViewById(R.id.main_menu_btn_view_map);
         viewMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,5 +71,9 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
         
+        // Sync Data to mobile and populate artworks and museums
+        ((GlobalDataManager) getApplicationContext()).get_dbManager().retrieveArtworks();
+        
+        ((GlobalDataManager) getApplicationContext()).get_dbManager().retrieveMuseums();
     }
 }

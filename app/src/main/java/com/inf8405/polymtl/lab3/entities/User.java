@@ -1,5 +1,7 @@
 package com.inf8405.polymtl.lab3.entities;
 
+import java.util.HashMap;
+
 /**
  * Class used to store the user's info
  * The favorites are only stored on firebase, not locally
@@ -11,7 +13,7 @@ public class User {
     private String id;
     private String name;
     private String password;
-    private Collection favorites;
+    private HashMap<String, String> favorites; // Ugly at the moment since it's a duplication but firebase hates arrays... Open to better ideasC
     
     public User() {
         
@@ -21,7 +23,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.favorites = new Collection();
+        this.favorites = new HashMap<>();
     }
     
     public String getId() {
@@ -48,11 +50,11 @@ public class User {
         this.password = password;
     }
     
-    public Collection getFavorites() {
+    public HashMap<String, String> getFavorites() {
         return favorites;
     }
     
-    public void setFavorites(Collection favorites) {
+    public void setFavorites(HashMap<String, String> favorites) {
         this.favorites = favorites;
     }
 }
