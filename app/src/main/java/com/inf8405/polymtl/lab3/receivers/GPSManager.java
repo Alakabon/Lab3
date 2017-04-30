@@ -15,9 +15,6 @@ import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 public class GPSManager extends BroadcastReceiver {
     private static final String TAG = "GPSManager";
     
-    private static final double default_latitude = 45.50461055;
-    private static final double default_longitude = -73.61444413;
-    
     private Context _ctx;
     private boolean _isProviderEnabled;
     private LocationManager _lm;

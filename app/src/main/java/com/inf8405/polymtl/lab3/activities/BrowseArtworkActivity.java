@@ -114,11 +114,13 @@ public class BrowseArtworkActivity extends AppCompatActivity {
                 
                 if (dbManager.isArtworkFavorited(artwork)) {
                     if (dbManager.removeFromFavorites(artwork)) {
+                        ((GlobalDataManager) getApplicationContext()).get_favorites().remove(artwork);
                         Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
                     if (dbManager.addToFavorites(artwork)) {
+                        ((GlobalDataManager) getApplicationContext()).get_favorites().add(artwork);
                         Toast.makeText(getApplicationContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
