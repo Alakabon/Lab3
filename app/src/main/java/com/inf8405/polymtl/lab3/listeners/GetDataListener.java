@@ -3,8 +3,11 @@ package com.inf8405.polymtl.lab3.listeners;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+/**
+ * Simple interface based on
+ **/
 public interface GetDataListener {
-    public void onStart();
-    public void onSuccess(DataSnapshot dataSnapshot);
-    public void onFailed(DatabaseError databaseError);
+    void onSuccess(DataSnapshot dataSnapshot);
+    
+    void onFailed(DatabaseError databaseError);
 }

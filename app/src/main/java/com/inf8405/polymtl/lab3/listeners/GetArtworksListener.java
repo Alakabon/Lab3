@@ -1,4 +1,4 @@
-package com.inf8405.polymtl.lab3.listeners;
+/*package com.inf8405.polymtl.lab3.listeners;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -111,4 +111,4 @@ public class GetArtworksListener implements GetDataListener {
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
     }
-}
+}*/

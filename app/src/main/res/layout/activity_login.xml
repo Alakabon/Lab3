@@ -1,110 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.inf8405.polymtl.lab3.activities.LoginActivity">
-
-
-    <EditText
-        android:id="@+id/login_name"
-        android:layout_width="336dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/login_name"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width="336dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:text="@string/login_password"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_name" />
-
-    <Button
-        android:id="@+id/login_button_login"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="228dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/dim_vertical_padding"
-        android:text="@string/login_btn_login"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password" />
-
-    <Button
-        android:id="@+id/login_button_register"
-        android:layout_width="228dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/dim_vertical_padding"
-        android:text="@string/login_btn_register"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_login" />
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_register">
-
-        <TableRow
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical">
+            android:layout_height="match_parent">
 
-            <View
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.inf8405.polymtl.lab3.activities.LoginActivity">
+
+
+        <EditText
+            android:id="@+id/login_name"
+            android:layout_width="336dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/login_name"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="336dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="@string/login_password"
+            android:textSize="24sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_name"/>
+
+        <Button
+            android:id="@+id/login_button_login"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="228dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/dim_vertical_padding"
+            android:text="@string/login_btn_login"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_password"/>
+
+        <Button
+            android:id="@+id/login_button_register"
+            android:layout_width="228dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/dim_vertical_padding"
+            android:text="@string/login_btn_register"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_button_login"/>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_button_register">
+
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="2dip"
-                android:layout_span="3"
-                android:background="#000000" />
-        </TableRow>
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingTop="@dimen/dim_vertical_padding">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dip"
+                    android:layout_span="3"
+                    android:background="#000000"/>
+            </TableRow>
 
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:contentDescription="@string/lbl_InternetStatus"
-                app:srcCompat="@drawable/online" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/dim_vertical_padding">
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:contentDescription="@string/lbl_InternetStatus"
+                    app:srcCompat="@drawable/online"/>
 
             <TextView
                 android:id="@+id/lbl1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
                 android:text="@string/lbl_InternetStatus"
                 android:textStyle="bold" />
 
@@ -133,7 +138,8 @@
                 android:id="@+id/lbl2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
+                android:paddingEnd="@dimen/dim_start_padding"
                 android:text="@string/lbl_BatteryStatus"
                 android:textStyle="bold" />
 
@@ -161,7 +167,8 @@
                 android:id="@+id/lbl5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
+                android:paddingEnd="@dimen/dim_start_padding"
                 android:text="@string/lbl_gps"
                 android:textStyle="bold" />
 
@@ -189,7 +196,8 @@
                 android:id="@+id/lbl3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
+                android:paddingEnd="@dimen/dim_start_padding"
                 android:text="@string/lbl_Latitude"
                 android:textStyle="bold" />
 
@@ -217,7 +225,8 @@
                 android:id="@+id/lbl4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
+                android:paddingEnd="@dimen/dim_start_padding"
                 android:text="@string/lbl_Longitude"
                 android:textStyle="bold" />
 
@@ -245,7 +254,8 @@
                 android:id="@+id/lbl6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dim_start_padding"
+                android:paddingStart="@dimen/dim_start_padding"
+                android:paddingEnd="@dimen/dim_start_padding"
                 android:text="@string/lbl_UserID"
                 android:textStyle="bold" />
 
@@ -258,4 +268,5 @@
         </TableRow>
     </TableLayout>
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

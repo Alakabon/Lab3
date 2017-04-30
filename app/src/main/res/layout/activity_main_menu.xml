@@ -1,56 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/dim_vertical_padding"
+    android:paddingRight="@dimen/dim_vertical_padding"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.inf8405.polymtl.lab3.activities.MainMenuActivity">
 
-    <Button
-        android:id="@+id/main_menu_btn_add_artwork"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_add_artwork"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <Button
-        android:id="@+id/main_menu_btn_browse_artwork"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_browse_artwork"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_add_artwork"
-        />
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/dim_vertical_padding"
+            android:layout_weight="1">
 
-    <Button
-        android:id="@+id/main_menu_btn_view_favorite"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_view_favorites"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_browse_artwork"/>
+            <ImageButton
+                android:id="@+id/main_menu_btn_add_artwork"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/add_artwork_btn_add_artwork"
+                android:src="@drawable/add" />
 
-    <Button
-        android:id="@+id/main_menu_btn_view_map"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_menu_btn_view_map"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_menu_btn_view_favorite"/>
+            <ImageButton
+                android:id="@+id/main_menu_btn_browse_artwork"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/main_menu_btn_browse_artwork"
+                android:src="@drawable/search" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/main_menu_btn_view_favorite"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/main_menu_btn_view_favorites"
+                android:src="@drawable/fav" />
+
+            <ImageButton
+                android:id="@+id/main_menu_btn_view_map"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/main_menu_btn_view_map"
+                android:src="@drawable/map" />
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/main_menu_btn_add_museum"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/add2" />
+
+            <ImageButton
+                android:id="@+id/main_menu_btn_browse_museums"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/search2" />
+        </TableRow>
+
+
+    </TableLayout>
 
 </android.support.constraint.ConstraintLayout>

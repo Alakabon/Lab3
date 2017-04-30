@@ -7,8 +7,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory ;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.R;
 import com.inf8405.polymtl.lab3.entities.Artwork;
-import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
+//import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.utilities.PermissionUtils;
 
@@ -40,8 +38,7 @@ import java.util.ArrayList;
 public class ViewMapActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        OnMyLocationButtonClickListener
-{
+        OnMyLocationButtonClickListener {
     private GlobalDataManager _gdm;
     private GoogleMap _map;
     /**
@@ -70,21 +67,18 @@ public class ViewMapActivity extends AppCompatActivity implements
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    updateMarkers(dataSnapshot);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                throw databaseError.toException();
-            }
-        });
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(_gdm.get_deviceLocation().getLatitude(), _gdm.get_deviceLocation().getLongitude()));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-        _map.moveCamera(center);
-        _map.animateCamera(zoom);
+                                               @Override
+                                               public void onDataChange(DataSnapshot dataSnapshot) {
+                                                   if (dataSnapshot.exists()) {
+                                                       updateMarkers(dataSnapshot);
+                                                   }
+                                               }
+
+                                               @Override
+                                               public void onCancelled(DatabaseError databaseError) {
+                                                   throw databaseError.toException();
+                                               }
+                                           });
     }
 
     /**

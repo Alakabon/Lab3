@@ -1,8 +1,5 @@
 package com.inf8405.polymtl.lab3.managers;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 /**
  * Handles the very basic crypto for the password
  * Taken pretty much as is from the following stackoverflow thread

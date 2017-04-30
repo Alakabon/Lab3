@@ -10,12 +10,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inf8405.polymtl.lab3.entities.Artwork;
+import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.entities.User;
-import com.inf8405.polymtl.lab3.listeners.GetArtworksListener;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.listeners.UserListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class handles the communication to and from the database using firebase
@@ -28,22 +29,13 @@ public class DatabaseManager {
     private ValueEventListener userListener;
     private Context _ctx;
     private boolean _loggedIn;
-    private ArrayList<Artwork> artworks;
+    
     
     public DatabaseManager(Context ctx) {
         _ctx = ctx;
         _loggedIn = false;
-        artworks = new ArrayList<>();
         _instance = FirebaseDatabase.getInstance();
         userListener = new UserListener(_ctx);
-    }
-    
-    public ArrayList<Artwork> getArtworks() {
-        return artworks;
-    }
-    
-    public void setArtworks(ArrayList<Artwork> artworks) {
-        this.artworks = artworks;
     }
     
     public FirebaseDatabase get_instance() {
@@ -133,17 +125,42 @@ public class DatabaseManager {
         return false;
     }
     
-    public void retrieveArtworks(final GetArtworksListener getArtworksListener) {
+    public boolean addMuseum(Museum museum) {
+        
+        try {
+            DatabaseReference insertRef = _instance.getReference().child("root").child("museums").child(museum.getName());
+            
+            String pushId = insertRef.push().getKey();
+            museum.setId(pushId);
+            
+            insertRef.setValue(museum);
+            
+            return true;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public void retrieveArtworks() {
         try {
             DatabaseReference userRef = _instance.getReference().child("root").child("artworks");
-            final ArrayList<Artwork> tempArtworks = new ArrayList<>();
             // Read from the database
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //getDataListener.onSuccess(dataSnapshot);
                     if (dataSnapshot.getValue() != null) {
-                        getArtworksListener.onSuccess(dataSnapshot);
+                        //ArrayList<Artwork> artworks = new ArrayList<>();
+                        
+                        ArrayList<Artwork> artworks = ((GlobalDataManager) _ctx.getApplicationContext()).get_artworks();
+                        artworks.clear();
+                        
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Artwork artwork = snapshot.getValue(Artwork.class);
+                            artworks.add(artwork);
+                        }
+                        ((GlobalDataManager) _ctx.getApplicationContext()).set_artworks(artworks);
                     }
                 }
                 
@@ -155,6 +172,96 @@ public class DatabaseManager {
             });
         } catch (DatabaseException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void retrieveMuseums() {
+        try {
+            DatabaseReference userRef = _instance.getReference().child("root").child("museums");
+            // Read from the database
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //getDataListener.onSuccess(dataSnapshot);
+                    if (dataSnapshot.getValue() != null) {
+                        ArrayList<Museum> museumList = ((GlobalDataManager) _ctx.getApplicationContext()).get_museums();
+                        museumList.clear();
+                        
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Museum museum = snapshot.getValue(Museum.class);
+                            museumList.add(museum);
+                        }
+                        
+                        ((GlobalDataManager) _ctx.getApplicationContext()).set_museums(museumList);
+                    }
+                }
+                
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG + ":getArtw", "Failed to retrieve artworks ", error.toException());
+                }
+            });
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void addToFavorites(User dbUser, Artwork artwork) {
+        if (_loggedIn) {
+            try {
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
+                favRef.child(artwork.getName()).setValue(artwork.getId());
+                
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void removeFromFavorites(User dbUser, Artwork artwork) {
+        if (_loggedIn) {
+            try {
+                DatabaseReference favRef = _instance.getReference().child("root").child("users").child(dbUser.getName()).child("favorites");
+                favRef.child(artwork.getName()).removeValue();
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public void getFavoriteArtworksData() {
+        if (_loggedIn) {
+            try {
+                GlobalDataManager gdm = ((GlobalDataManager) _ctx.getApplicationContext());
+                final ArrayList<Artwork> favoritesList = gdm.get_favorites();
+                favoritesList.clear();
+                
+                User currentUser = gdm.get_userData();
+                HashMap<String, String> favorites = currentUser.getFavorites();
+                
+                for (String artworkName : favorites.keySet()) {
+                    DatabaseReference artworkRef = _instance.getReference().child("root").child("artworks").child(artworkName);
+                    artworkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() != null) {
+                                Artwork artwork = dataSnapshot.getValue(Artwork.class);
+                                favoritesList.add(artwork);
+                            }
+                        }
+                        
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("getArtwFavorites", "Failed to retrieve favorites from user ", databaseError.toException());
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -176,6 +283,7 @@ public class DatabaseManager {
                 User currentUser = ((GlobalDataManager) _ctx).get_userData();
                 DatabaseReference userRef = _instance.getReference().child("root").child("users").child(currentUser.getName());
                 userRef.removeEventListener(userListener);
+                _loggedIn = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
