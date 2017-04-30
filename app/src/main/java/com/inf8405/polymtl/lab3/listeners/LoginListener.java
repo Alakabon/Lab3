@@ -64,6 +64,7 @@ public class LoginListener implements GetDataListener {
             ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().set_loggedIn(true);
             ((GlobalDataManager)ctx.getApplicationContext()).get_dbManager().syncUser(dbUser);
             Intent intent = new Intent(ctx, MainMenuActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);
         } else {
             Toast.makeText(ctx, ctx.getString(R.string.login_error_failed_password), Toast.LENGTH_LONG).show();
