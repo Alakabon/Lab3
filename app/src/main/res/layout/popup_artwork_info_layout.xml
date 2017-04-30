@@ -63,14 +63,28 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/dim_start_padding"
             android:background="@null"
             android:contentDescription="@string/main_menu_btn_browse_artwork"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/popup_artwork_info_imageButton"
-            app:srcCompat="@drawable/twitter"
-            android:layout_marginRight="10dp" />
+            app:srcCompat="@drawable/twitter" />
+
+        <ImageButton
+            android:id="@+id/popup_artwork_favorite_imageButton"
+            style="@android:style/Widget.Holo.ImageButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/dim_start_padding"
+            android:background="@null"
+            android:contentDescription="@string/main_menu_btn_browse_artwork"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:srcCompat="@drawable/favorite" />
 
         <TextView
             android:id="@+id/popup_artwork_info_distance"

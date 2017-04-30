@@ -104,6 +104,13 @@ public class BrowseArtworkActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
+        favorite.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO: adding item to favorit
+            }
+        });
+
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
