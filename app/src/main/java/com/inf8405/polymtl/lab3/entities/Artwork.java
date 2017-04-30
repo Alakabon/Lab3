@@ -1,11 +1,5 @@
 package com.inf8405.polymtl.lab3.entities;
 
-import android.util.Log;
-
-import com.google.firebase.database.Exclude;
-
-import java.util.HashMap;
-
 /**
  * Class used to store the info on Artworks, the bread and butter the app revolves around
  * Location is kept as 2 doubles to simplify the firebase extraction
@@ -20,9 +14,6 @@ public class Artwork {
     private Double gpsX;
     private Double gpsY;
     
-    private HashMap<String, Integer> ratings;
-    private Double averageRating;
-    
     public Artwork() {
     }
     
@@ -32,15 +23,13 @@ public class Artwork {
         this.photoURL = photoURL;
     }
     
-    public Artwork(String id, String name, String description, String photoURL, Double gpsX, Double gpsY, HashMap<String, Integer> ratings, Double averageRating, HashMap<String, String> comments) {
+    public Artwork(String id, String name, String description, String photoURL, Double gpsX, Double gpsY) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.photoURL = photoURL;
         this.gpsX = gpsX;
         this.gpsY = gpsY;
-        this.ratings = ratings;
-        this.averageRating = averageRating;
     }
     
     public Double getGpsX() {
@@ -89,45 +78,5 @@ public class Artwork {
     
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
-    }
-    
-    public HashMap<String, Integer> getRatings() {
-        return ratings;
-    }
-    
-    public void setRatings(HashMap<String, Integer> ratings) {
-        this.ratings = ratings;
-    }
-    
-    public Double getAverageRating() {
-        return averageRating;
-    }
-    
-    public void setAverageRating(Double averageRating) {
-        this.averageRating = averageRating;
-    }
-    
-    @Exclude
-    public float calculateAverageRating() {
-        int ratingCount = 0;
-        float sumRatings = 0;
-        int currentRating;
-        
-        for (String s : ratings.keySet()) {
-            // Make sure rating is not null;
-            currentRating = ratings.get(s);
-            if (!ratings.get(s).equals(null)) {
-                sumRatings += currentRating;
-                ratingCount++;
-            } else {
-                Log.d(TAG, "A null value was inserted in place of a rating, please be careful");
-                return -1;
-            }
-        }
-        if (ratingCount > 0) {
-            return sumRatings / ratingCount;
-        } else {
-            return 0;
-        }
     }
 }
