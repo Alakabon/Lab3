@@ -7,11 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.TextViewCompat;
+
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        checkPermission();
 
         _sharedPref = this.getSharedPreferences("PREF_DATA", Context.MODE_PRIVATE);
         String lastUserName = getLastUsedUsername();
@@ -157,7 +162,30 @@ public class LoginActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         applySavedLocalProfile();
-        sqldb.updateUser(new User(_user.getId(),((EditText) findViewById(R.id.login_name)).getText().toString(), ((EditText) findViewById(R.id.login_password)).getText().toString()));
+        sqldb.updateUser(new User(_user.getId(), ((EditText) findViewById(R.id.login_name)).getText().toString(), ((EditText) findViewById(R.id.login_password)).getText().toString()));
     }
+
+    private String returnPermission(String permission) {
+        return permission.concat(": ").concat((ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) ? "GRANTED\n" : "DENIED\n").replace("android.permission.","");
+    }
+
+    private void checkPermission() {
+
+        String msg = returnPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+        msg += returnPermission(Manifest.permission.ACCESS_NETWORK_STATE);
+        msg += returnPermission(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS);
+        msg += returnPermission(Manifest.permission.ACCESS_CHECKIN_PROPERTIES);
+        msg += returnPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+        msg += returnPermission(Manifest.permission.ACCESS_WIFI_STATE);
+        msg += returnPermission(Manifest.permission.ACCOUNT_MANAGER);
+        msg += returnPermission(Manifest.permission.BATTERY_STATS);
+        msg += returnPermission(Manifest.permission.CAMERA);
+        msg += returnPermission(Manifest.permission.CONTROL_LOCATION_UPDATES);
+        msg += returnPermission(Manifest.permission.INTERNET);
+        msg += returnPermission(Manifest.permission.LOCATION_HARDWARE);
+
+        ((TextView) findViewById(R.id.txt7)).setText(msg);
+    }
+
 }
 
