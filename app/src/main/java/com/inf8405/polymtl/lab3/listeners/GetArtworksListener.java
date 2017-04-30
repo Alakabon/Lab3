@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -95,6 +96,15 @@ public class GetArtworksListener implements GetDataListener {
         
         TextView description = (TextView) popupWindow.findViewById(R.id.popup_artwork_info_description);
         description.setText(artwork.getDescription());
+        
+        TextView distance = (TextView) popupWindow.findViewById(R.id.popup_artwork_info_distance);
+        Location artworkLocation = new Location(TAG);
+        artworkLocation.setLatitude(artwork.getGpsY());
+        artworkLocation.setLongitude(artwork.getGpsX());
+        Location currentLocation = ((GlobalDataManager) (ctx.getApplicationContext())).get_deviceLocation();
+        float fDistance = currentLocation.distanceTo(artworkLocation)/1000; //Distance in meters, divide by 1000 to get KM
+        
+        distance.setText(String.format(" Distance de %.2f KM", fDistance));
         
         Bitmap decodedPhoto = ImageManager.decodeImageFromString(artwork.getPhotoURL());
         ImageView photo = (ImageView) popupWindow.findViewById(R.id.popup_artwork_info_image);
