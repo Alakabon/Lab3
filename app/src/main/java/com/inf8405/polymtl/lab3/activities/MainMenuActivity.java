@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.inf8405.polymtl.lab3.R;
 
@@ -14,8 +14,9 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        
-        Button addArtworkBtn = (Button) findViewById(R.id.main_menu_btn_add_artwork);
+
+    
+        ImageButton addArtworkBtn = (ImageButton) findViewById(R.id.main_menu_btn_add_artwork);
         addArtworkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -24,7 +25,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
         
-        Button addMuseumBtn = (Button) findViewById(R.id.main_menu_btn_add_museum);
+        ImageButton addMuseumBtn = (ImageButton) findViewById(R.id.main_menu_btn_add_museum);
         addMuseumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -32,8 +33,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
-        Button browseMuseumBtn = (Button) findViewById(R.id.main_menu_btn_browse_museums);
+    
+        ImageButton browseMuseumBtn = (ImageButton) findViewById(R.id.main_menu_btn_browse_museums);
         browseMuseumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,8 +42,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
-        Button browseArtworkBtn = (Button) findViewById(R.id.main_menu_btn_browse_artwork);
+
+        ImageButton browseArtworkBtn = (ImageButton) findViewById(R.id.main_menu_btn_browse_artwork);
         browseArtworkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,8 +51,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
-        Button viewFavoritesBtn = (Button) findViewById(R.id.main_menu_btn_view_favorite);
+
+        ImageButton viewFavoritesBtn = (ImageButton) findViewById(R.id.main_menu_btn_view_favorite);
         viewFavoritesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,8 +60,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
-        Button viewMapBtn = (Button) findViewById(R.id.main_menu_btn_view_map);
+
+        ImageButton viewMapBtn = (ImageButton) findViewById(R.id.main_menu_btn_view_map);
         viewMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

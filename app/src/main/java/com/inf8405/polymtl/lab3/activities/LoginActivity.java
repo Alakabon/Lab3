@@ -3,8 +3,10 @@ package com.inf8405.polymtl.lab3.activities;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -35,23 +37,25 @@ import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     GlobalDataManager _gdm;
     private User _user;
-    private String DefaultUserName;
+    SQLLiteManager sqldb;
+    private SharedPreferences _sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getGoogleUsername();
-        SQLLiteManager db = new SQLLiteManager(this);
-        _user = db.getUser(DefaultUserName);
+        _sharedPref = this.getSharedPreferences("PREF_DATA", Context.MODE_PRIVATE);
+        String lastUserName = getLastUsedUsername();
+
+        //getGoogleUsername();
+        sqldb = new SQLLiteManager(this);
+        _user = sqldb.getUser(lastUserName);
         if (_user == null) {
-            loadDefaultUserProfile();
-            db.addUser(_user);
-            _user = db.getUser(DefaultUserName);
+            _user = new User(null, lastUserName, lastUserName);
+            sqldb.addUser(_user);
         }
         fillLoginFields();
 
@@ -86,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 LoginListener loginListener = new LoginListener(getApplicationContext(), nameField.getText().toString(), passwordField.getText().toString());
                 _gdm.get_dbManager().login(loginListener);
-
             }
         });
 
@@ -98,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                 EditText passwordField = (EditText) findViewById(R.id.login_password);
 
                 _gdm.get_dbManager().registerUser(nameField.getText().toString(), passwordField.getText().toString());
-
             }
         });
 
@@ -112,35 +114,49 @@ public class LoginActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.txt5)).setText(_gdm.get_GPS_provider_status_string());
         ((TextView) findViewById(R.id.txt3)).setText(_gdm.get_GPS_latitude_string());
         ((TextView) findViewById(R.id.txt4)).setText(_gdm.get_GPS_longitude_string());
+        fillLoginFields();
     }
 
     //___________________________________________________________________________________________________________________________________//
     // Reading saved preferences (e.g., Last username) for loading proper user object from Firebase
     // If it was empty, strip out the username from the GMail address
     // Otherwise, will create a random username
-    private void getGoogleUsername() {
-        List<String> _emails = new LinkedList<String>();
-        for (Account account : AccountManager.get(this).getAccountsByType("com.google"))
-            _emails.add(account.name);
+    private String getLastUsedUsername() {
+        String _username = _sharedPref.getString(getString(R.string.login_name), "");
+        if (_username.isEmpty()) {
+            List<String> _emails = new LinkedList<String>();
+            for (Account account : AccountManager.get(this).getAccountsByType("com.google"))
+                _emails.add(account.name);
 
-        if (!_emails.isEmpty() && _emails.get(0) != null) {
-            String[] parts = _emails.get(0).split("@");
-            if (parts.length > 1) DefaultUserName = parts[0];
-        } else {
-            DefaultUserName = "NewUser";
+            if (!_emails.isEmpty() && _emails.get(0) != null) {
+                String[] parts = _emails.get(0).split("@");
+                if (parts.length > 1) return parts[0];
+            }
+
+            return "User".concat(String.valueOf(new Random().nextInt(2000 - 1000) + 1000));
         }
+        return _username;
     }
 
-
-    private void loadDefaultUserProfile() {
-        _user = new User(null, DefaultUserName, DefaultUserName);
-        fillLoginFields();
-    }
-
-    private void fillLoginFields(){
+    private void fillLoginFields() {
         ((EditText) findViewById(R.id.login_name)).setText(_user.getName());
         ((EditText) findViewById(R.id.login_password)).setText(_user.getPassword());
         ((TextView) findViewById(R.id.txt6)).setText(_user.getId());
+    }
+
+    //___________________________________________________________________________________________________________________________________//
+    private void applySavedLocalProfile() {
+        SharedPreferences.Editor _editor = _sharedPref.edit();
+        _editor.putString(getString(R.string.login_name), ((EditText) findViewById(R.id.login_name)).getText().toString());
+        _editor.apply();
+    }
+
+    //___________________________________________________________________________________________________________________________________//
+    // Using SharedPreferences to store preferences of the application when application is closing
+    @Override
+    public void onStop() {
+        super.onStop();
+        applySavedLocalProfile();
     }
 }
 
