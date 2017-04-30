@@ -44,6 +44,10 @@
     <string name="add_museum_frag_addr">Address</string>
     <!--Popup info -->
     <string name="popup_info_distance">Distance</string>
+    <!--Permissions-->
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="permission_required_toast">Permission required</string>
+    <string name="permission_rationale_location">Permission rationale location</string>
     <string name="popup_info_address">Adresse</string>
     <!--Sort info -->
     <string name="sort_label_sort_by">Trier par</string>
