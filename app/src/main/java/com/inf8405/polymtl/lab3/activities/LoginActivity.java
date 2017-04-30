@@ -37,9 +37,9 @@ import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity {
 
-    GlobalDataManager _gdm;
+    private GlobalDataManager _gdm;
     private User _user;
-    SQLLiteManager sqldb;
+    private SQLLiteManager sqldb;
     private SharedPreferences _sharedPref;
 
     @Override
@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         applySavedLocalProfile();
+        sqldb.updateUser(new User(_user.getId(),((EditText) findViewById(R.id.login_name)).getText().toString(), ((EditText) findViewById(R.id.login_password)).getText().toString()));
     }
 }
 
