@@ -51,6 +51,9 @@ public class User {
     }
     
     public HashMap<String, String> getFavorites() {
+        if (favorites == null){
+            favorites = new HashMap<>();
+        }
         return favorites;
     }
     
