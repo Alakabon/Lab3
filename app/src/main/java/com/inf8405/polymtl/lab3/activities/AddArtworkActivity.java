@@ -1,6 +1,7 @@
 package com.inf8405.polymtl.lab3.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -162,5 +163,14 @@ public class AddArtworkActivity extends AppCompatActivity {
         ByteArrayOutputStream _stream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 100, _stream);
         ((ImageView) findViewById(R.id.add_artwork_image)).setTag(Base64.encodeToString(_stream.toByteArray(), Base64.DEFAULT));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();
     }
 }

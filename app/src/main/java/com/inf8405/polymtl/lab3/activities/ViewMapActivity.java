@@ -18,6 +18,7 @@ import com.inf8405.polymtl.lab3.entities.Museum;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.utilities.PermissionUtils;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -128,5 +129,14 @@ public class ViewMapActivity extends AppCompatActivity implements
                     .title(museum.getName())
                     .snippet(museum.getDescription()));
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();
     }
 }

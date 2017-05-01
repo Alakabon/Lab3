@@ -46,6 +46,7 @@
     <string name="add_museum_frag_addr">Address</string>
     <!--Popup info -->
     <string name="popup_info_distance">Distance</string>
+    <string name="orientation_msg">La meilleure vue sera réalisée en orientation portrait.</string>
     <!--Permissions-->
     <string name="location_permission_denied">Location permission denied</string>
     <string name="permission_required_toast">Permission required</string>
