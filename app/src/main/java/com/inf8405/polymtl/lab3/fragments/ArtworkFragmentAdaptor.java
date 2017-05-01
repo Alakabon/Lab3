@@ -21,7 +21,7 @@ import static android.R.drawable.ic_menu_camera;
  * Class used to assign the fields of an artwork to the layout of the fragment
  **/
 public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
-    
+    private static final int characterLimit = 50;
     private ArrayList<Artwork> artworks;
     
     public ArtworkFragmentAdaptor(Context context, ArrayList<Artwork> artworks) {
@@ -57,7 +57,16 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         
         // Set fields
         nameField.setText(artwork.getName());
-        descriptionField.setText(artwork.getDescription());
+        
+        String fullDescription = artwork.getDescription();
+        if (fullDescription.length() >= characterLimit) {
+            String shortDesc = fullDescription.substring(0,characterLimit);
+            shortDesc = shortDesc + "...";
+            descriptionField.setText(shortDesc);
+        }
+        else{
+            descriptionField.setText(artwork.getDescription());
+        }
         
         // Return the completed view to render on screen
         return convertView;
