@@ -12,12 +12,14 @@ import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +33,7 @@ import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.listeners.LoginListener;
 import com.inf8405.polymtl.lab3.managers.DatabaseManager;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
+import com.inf8405.polymtl.lab3.managers.NFCManager;
 import com.inf8405.polymtl.lab3.managers.SQLLiteManager;
 import com.inf8405.polymtl.lab3.receivers.GPSManager;
 import com.inf8405.polymtl.lab3.receivers.LowBatteryManager;
@@ -43,21 +46,23 @@ import java.util.Random;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "Login";
     private GlobalDataManager _gdm;
     private User _user;
     private SQLLiteManager sqldb;
     private SharedPreferences _sharedPref;
+    private NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         checkPermission();
+        getNFCAdapter();
 
         _sharedPref = this.getSharedPreferences("PREF_DATA", Context.MODE_PRIVATE);
         String lastUserName = getLastUsedUsername();
 
-        //getGoogleUsername();
         sqldb = new SQLLiteManager(this);
         _user = sqldb.getUser(lastUserName);
         if (_user == null) {
@@ -124,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
         fillLoginFields();
     }
 
-    //___________________________________________________________________________________________________________________________________//
     // Reading saved preferences (e.g., Last username) for loading proper user object from Firebase
     // If it was empty, strip out the username from the GMail address
     // Otherwise, will create a random username
@@ -145,20 +149,19 @@ public class LoginActivity extends AppCompatActivity {
         return _username;
     }
 
+    // Filling login fields based on information of user object
     private void fillLoginFields() {
         ((EditText) findViewById(R.id.login_name)).setText(_user.getName());
         ((EditText) findViewById(R.id.login_password)).setText(_user.getPassword());
         ((TextView) findViewById(R.id.txt6)).setText(_user.getId());
     }
 
-    //___________________________________________________________________________________________________________________________________//
     private void applySavedLocalProfile() {
         SharedPreferences.Editor _editor = _sharedPref.edit();
         _editor.putString(getString(R.string.login_name), ((EditText) findViewById(R.id.login_name)).getText().toString());
         _editor.apply();
     }
 
-    //___________________________________________________________________________________________________________________________________//
     // Using SharedPreferences to store preferences of the application when application is closing
     @Override
     public void onStop() {
@@ -167,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
         sqldb.updateUser(new User(_user.getId(), ((EditText) findViewById(R.id.login_name)).getText().toString(), ((EditText) findViewById(R.id.login_password)).getText().toString()));
     }
 
+    // Verifying permission of the application at the runtime
     private String returnPermission(String permission) {
         return permission.concat(": ").concat((ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) ? "GRANTED\n" : "DENIED\n").replace("android.permission.", "");
     }
@@ -175,8 +179,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String msg = returnPermission(Manifest.permission.ACCESS_FINE_LOCATION);
         msg += returnPermission(Manifest.permission.ACCESS_NETWORK_STATE);
-        msg += returnPermission(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS);
-        msg += returnPermission(Manifest.permission.ACCESS_CHECKIN_PROPERTIES);
+        msg += returnPermission(Manifest.permission.NFC);
         msg += returnPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
         msg += returnPermission(Manifest.permission.ACCESS_WIFI_STATE);
         msg += returnPermission(Manifest.permission.ACCOUNT_MANAGER);
@@ -189,6 +192,7 @@ public class LoginActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.txt7)).setText(msg);
     }
 
+    //Handling changing from Portrait to LandScape and shows a message
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -197,5 +201,32 @@ public class LoginActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();
     }
-}
 
+    //Interact with the hardware via the NfcAdapter class and shows corresponding messages
+    private void getNFCAdapter() {
+        try {
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+            if (nfcAdapter == null) {
+                // Stop here, we definitely need NFC
+                Toast.makeText(this, getResources().getString(R.string.nfc_msg), Toast.LENGTH_LONG).show();
+            } else {
+                //see whether NFC is enabled or disabled
+                if (!nfcAdapter.isEnabled()) {
+                    Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Error reading NFC data.", Toast.LENGTH_LONG).show();
+                }
+
+                handleIntent(getIntent());
+            }
+        } catch (Exception ex) {
+            Log.w(TAG, ex.getMessage());
+        }
+    }
+
+    //Handling NFC Intent
+    private void handleIntent(Intent intent) {
+        Toast.makeText(this, "NFC is supported.", Toast.LENGTH_LONG).show();
+    }
+}
