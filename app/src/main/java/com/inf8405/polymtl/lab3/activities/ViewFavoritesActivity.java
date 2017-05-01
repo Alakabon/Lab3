@@ -90,7 +90,7 @@ public class ViewFavoritesActivity extends AppCompatActivity {
                 photo.setImageDrawable(getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
-    
+        
         final String facebookURL = "https://www.facebook.com/sharer/sharer.php?u=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
         ImageButton facebook = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_info_imageButton));
         facebook.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +99,7 @@ public class ViewFavoritesActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-    
+        
         final String twitterURL = "https://twitter.com/home?status=http%3A//www.google.com/maps/place/," + artwork.getGpsY().toString() + "," + artwork.getGpsX().toString();
         ImageButton twitter = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_twitter_imageButton));
         twitter.setOnClickListener(new View.OnClickListener() {
@@ -109,12 +109,13 @@ public class ViewFavoritesActivity extends AppCompatActivity {
             }
         });
         
-        ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
+        final ImageButton favorite = ((ImageButton) popupWindow.findViewById(R.id.popup_artwork_favorite_imageButton));
         favorite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DatabaseManager dbManager = ((GlobalDataManager) getApplicationContext()).get_dbManager();
                 if (dbManager.removeFromFavorites(artwork)) {
                     ((GlobalDataManager) getApplicationContext()).get_favorites().remove(artwork);
+                    adjustFavoritesIcon(favorite);
                     adaptor.refresh();
                     Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
                 }
@@ -126,5 +127,13 @@ public class ViewFavoritesActivity extends AppCompatActivity {
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
+    }
+    
+    private void adjustFavoritesIcon(final ImageButton favorite) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            favorite.setImageDrawable(getApplicationContext().getDrawable(R.drawable.favorite_off));
+        } else {
+            favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_off));
+        }
     }
 }
