@@ -17,6 +17,9 @@
     <string name="lbl_UserID">User ID :</string>
     <string name="lbl_Log">Statut des Permissions :</string>
     <string name="pref_file_key">LAB3_PREF_FILE_KEY</string>
+    <string name="msg_yes">Oui</string>
+    <string name="msg_no">Non</string>
+    <string name="msg_sync">Voulez-vous synchroniser la liste Favorite via NFC?</string>
     <!--Main menu-->
     <string name="main_menu_btn_add_artwork">Ajouter une oeuvre</string>
     <string name="main_menu_btn_browse_artwork">Découvrir des oeuvres</string>
