@@ -25,6 +25,7 @@ import static android.R.drawable.ic_menu_camera;
  * That being said, given that the names of the views are different this class is needed
  **/
 public class MuseumFragmentAdaptor extends ArrayAdapter<Museum> {
+    private static final int characterLimit = 50;
     
     public MuseumFragmentAdaptor(Context context, ArrayList<Museum> museums) {
         super(context, 0, museums);
@@ -55,7 +56,16 @@ public class MuseumFragmentAdaptor extends ArrayAdapter<Museum> {
         }
         
         nameField.setText(museum.getName());
-        descriptionField.setText(museum.getDescription());
+        
+        String fullDescription = museum.getDescription();
+        if (fullDescription.length() >= characterLimit) {
+            String shortDesc = fullDescription.substring(0,characterLimit);
+            shortDesc = shortDesc + "...";
+            descriptionField.setText(shortDesc);
+        }
+        else{
+            descriptionField.setText(museum.getDescription());
+        }
         
         return convertView;
     }
