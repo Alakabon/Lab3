@@ -2,6 +2,7 @@ package com.inf8405.polymtl.lab3.activities;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory ;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,7 +38,8 @@ public class ViewMapActivity extends AppCompatActivity implements
     private boolean _permissionDenied = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_map);
         _gdm = ((GlobalDataManager) getApplicationContext());
@@ -52,39 +54,49 @@ public class ViewMapActivity extends AppCompatActivity implements
         _map.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        //  Sets the current camera position to Polytechnique and the zoom to street view
+        LatLng poly = new LatLng(45.5045044, -73.6128185);
+        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(poly, 15));
 
+        // Listeners for changes to the database so the app can update map markers
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                                @Override
-                                               public void onDataChange(DataSnapshot dataSnapshot) {
-                                                   if (dataSnapshot.exists()) {
+                                               public void onDataChange(DataSnapshot dataSnapshot)
+                                               {
+                                                   if (dataSnapshot.exists())
+                                                   {
                                                        updateMarkers();
                                                    }
                                                }
 
                                                @Override
-                                               public void onCancelled(DatabaseError databaseError) {
+                                               public void onCancelled(DatabaseError databaseError)
+                                               {
                                                    throw databaseError.toException();
                                                }
                                            });
     }
 
-    /**
-     * Enables the My Location layer if the fine location permission has been granted.
-     */
-    private void enableMyLocation() {
+     //Enables the My Location layer if the fine location permission has been granted.
+    private void enableMyLocation()
+    {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED)
+        {
             // Permission to access the location is missing.
             PermissionUtils.requestPermission(this, LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (_map != null) {
+        }
+        else if (_map != null)
+        {
             // Access to the location has been granted to the app.
             _map.setMyLocationEnabled(true);
         }
     }
 
     @Override
-    public boolean onMyLocationButtonClick() {
+    public boolean onMyLocationButtonClick()
+    {
         Toast.makeText(this, "Centering the map to current device location", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
@@ -92,18 +104,19 @@ public class ViewMapActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResumeFragments() {
+    protected void onResumeFragments()
+    {
         super.onResumeFragments();
-        if (_permissionDenied) {
+        if (_permissionDenied)
+        {
             // Permission was not granted, display error dialog.
             showMissingPermissionError();
             _permissionDenied = false;
         }
     }
-    /**
-     * Displays a dialog with error message explaining that the location permission is missing.
-     */
-    private void showMissingPermissionError() {
+    // Displays a dialog with error message explaining that the location permission is missing
+    private void showMissingPermissionError()
+    {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
@@ -132,9 +145,9 @@ public class ViewMapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(Configuration newConfig)
+    {
         super.onConfigurationChanged(newConfig);
-
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();
