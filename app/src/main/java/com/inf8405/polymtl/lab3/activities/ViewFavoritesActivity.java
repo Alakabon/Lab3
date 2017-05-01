@@ -2,6 +2,7 @@ package com.inf8405.polymtl.lab3.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
@@ -135,5 +136,14 @@ public class ViewFavoritesActivity extends AppCompatActivity {
         } else {
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_off));
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();
     }
 }
