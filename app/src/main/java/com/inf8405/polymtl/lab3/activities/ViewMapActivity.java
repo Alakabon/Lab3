@@ -2,6 +2,7 @@ package com.inf8405.polymtl.lab3.activities;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory ;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,6 +53,9 @@ public class ViewMapActivity extends AppCompatActivity implements
         _map.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        LatLng poly = new LatLng(45.5045044, -73.6128185);
+        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(poly, 15));
+
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
                                                @Override
