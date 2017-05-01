@@ -137,11 +137,11 @@ public class ViewFavoritesActivity extends AppCompatActivity {
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite_off));
         }
     }
-
+    
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
+        
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();

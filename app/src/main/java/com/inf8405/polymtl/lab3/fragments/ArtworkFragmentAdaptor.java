@@ -60,11 +60,10 @@ public class ArtworkFragmentAdaptor extends ArrayAdapter<Artwork> {
         
         String fullDescription = artwork.getDescription();
         if (fullDescription.length() >= characterLimit) {
-            String shortDesc = fullDescription.substring(0,characterLimit);
+            String shortDesc = fullDescription.substring(0, characterLimit);
             shortDesc = shortDesc + "...";
             descriptionField.setText(shortDesc);
-        }
-        else{
+        } else {
             descriptionField.setText(artwork.getDescription());
         }
         

@@ -59,11 +59,10 @@ public class MuseumFragmentAdaptor extends ArrayAdapter<Museum> {
         
         String fullDescription = museum.getDescription();
         if (fullDescription.length() >= characterLimit) {
-            String shortDesc = fullDescription.substring(0,characterLimit);
+            String shortDesc = fullDescription.substring(0, characterLimit);
             shortDesc = shortDesc + "...";
             descriptionField.setText(shortDesc);
-        }
-        else{
+        } else {
             descriptionField.setText(museum.getDescription());
         }
         

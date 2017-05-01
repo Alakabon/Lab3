@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.inf8405.polymtl.lab3.entities.User;
 
 /**
- *
+ * Class in charge of handling the local db storage
  */
 
 public class SQLLiteManager extends SQLiteOpenHelper {

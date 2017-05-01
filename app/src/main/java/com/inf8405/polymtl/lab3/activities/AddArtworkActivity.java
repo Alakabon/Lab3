@@ -26,6 +26,9 @@ import java.io.ByteArrayOutputStream;
 
 import static android.R.drawable.ic_menu_camera;
 
+/**
+ * Activitée en charge de l'ajout d'une oeuvre d'art
+ * */
 public class AddArtworkActivity extends AppCompatActivity {
     
     private static final String TAG = "AddArtworkActivity";
@@ -164,11 +167,11 @@ public class AddArtworkActivity extends AppCompatActivity {
         photo.compress(Bitmap.CompressFormat.PNG, 100, _stream);
         ((ImageView) findViewById(R.id.add_artwork_image)).setTag(Base64.encodeToString(_stream.toByteArray(), Base64.DEFAULT));
     }
-
+    
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
+        
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();

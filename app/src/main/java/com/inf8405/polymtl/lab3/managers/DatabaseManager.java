@@ -3,7 +3,6 @@ package com.inf8405.polymtl.lab3.managers;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
@@ -156,7 +155,7 @@ public class DatabaseManager {
                         
                         ArrayList<Artwork> artworks = ((GlobalDataManager) _ctx.getApplicationContext()).get_artworks();
                         ArrayList<Artwork> favorites = ((GlobalDataManager) _ctx.getApplicationContext()).get_favorites();
-                        HashMap<String,String> favoritesMap = ((GlobalDataManager) _ctx.getApplicationContext()).get_userData().getFavorites();
+                        HashMap<String, String> favoritesMap = ((GlobalDataManager) _ctx.getApplicationContext()).get_userData().getFavorites();
                         artworks.clear();
                         favorites.clear();
                         
@@ -164,7 +163,7 @@ public class DatabaseManager {
                             Artwork artwork = snapshot.getValue(Artwork.class);
                             artworks.add(artwork);
                             
-                            if(favoritesMap.containsKey(artwork.getId())){
+                            if (favoritesMap.containsKey(artwork.getId())) {
                                 favorites.add(artwork);
                             }
                         }

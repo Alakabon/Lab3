@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
+/**
+ * Power manager carried over form lab 2 with very little modifications
+ **/
 
 public class LowBatteryManager extends BroadcastReceiver {
     private static final String TAG = "LowBatteryManager";

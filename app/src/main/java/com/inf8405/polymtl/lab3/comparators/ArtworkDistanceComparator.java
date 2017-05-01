@@ -6,11 +6,13 @@ import com.inf8405.polymtl.lab3.entities.Artwork;
 
 import java.util.Comparator;
 
-//TODO fill with proper comparison
+
 
 /**
  * Comparator used to sort the resulting artworks by distance from the device from closest to farthest
+ * Did not end up being used due to lack of time
  **/
+@Deprecated
 public class ArtworkDistanceComparator implements Comparator<Artwork> {
     private static final String TAG = "ArtworkDistanceComparator";
     Location deviceLocation;

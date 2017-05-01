@@ -8,13 +8,19 @@ import android.net.NetworkInfo;
 
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
-public class NetworkManager extends BroadcastReceiver {
+/**
+ * Network manager carried over form lab 2 with very little modifications
+ **/
 
+public class NetworkManager extends BroadcastReceiver {
+    
     private Context _ctx;
+    
     //___________________________________________________________________________________________________________________________________//
     public NetworkManager(Context ctx) {
         _ctx = ctx;
     }
+    
     //___________________________________________________________________________________________________________________________________//
     // This method will check connectivity in case if we need to check whether mobile is connected with the internet or not.
     public static int isOnline(Context context) {

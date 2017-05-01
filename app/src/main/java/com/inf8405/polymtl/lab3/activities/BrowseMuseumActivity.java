@@ -21,22 +21,24 @@ import com.inf8405.polymtl.lab3.managers.ImageManager;
 
 import static android.R.drawable.ic_menu_camera;
 
-
+/**
+ * Activitée en charge du parcours des musés
+ */
 public class BrowseMuseumActivity extends AppCompatActivity {
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_museum);
-
+        
         setupListView();
     }
-
+    
     private void setupListView() {
         final ListView listView = (ListView) findViewById(R.id.browse_museum_listview);
-
+        
         listView.setAdapter(new MuseumFragmentAdaptor(getApplicationContext(), ((GlobalDataManager) getApplicationContext()).get_museums()));
-
+        
         listView.setClickable(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> list, View v, int pos, long id) {
@@ -44,24 +46,24 @@ public class BrowseMuseumActivity extends AppCompatActivity {
             }
         });
     }
-
+    
     private void showInfoPopup(Museum museum) {
         Dialog popupWindow = new Dialog(getWindow().getContext());
         popupWindow.setContentView(R.layout.popup_museum_info_layout);
-
+        
         // Setting fields
         TextView name = (TextView) popupWindow.findViewById(R.id.popup_museum_info_name);
         name.setText(museum.getName());
-
+        
         TextView description = (TextView) popupWindow.findViewById(R.id.popup_museum_info_description);
         description.setText(museum.getDescription());
-
+        
         TextView address = (TextView) popupWindow.findViewById(R.id.popup_museum_info_address);
         address.setText(museum.getAddress());
-
+        
         Bitmap decodedPhoto = ImageManager.decodeImageFromString(museum.getPhotoURL());
         ImageView photo = (ImageView) popupWindow.findViewById(R.id.popup_museum_info_image);
-
+        
         if (decodedPhoto != null) {
             photo.setImageBitmap(decodedPhoto);
         } else {
@@ -71,16 +73,16 @@ public class BrowseMuseumActivity extends AppCompatActivity {
                 photo.setImageDrawable(getApplicationContext().getResources().getDrawable(ic_menu_camera));
             }
         }
-
+        
         popupWindow.setCancelable(true);
         popupWindow.setCanceledOnTouchOutside(true);
         popupWindow.show();
     }
-
+    
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
+        
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
             Toast.makeText(this, getResources().getString(R.string.orientation_msg), Toast.LENGTH_LONG).show();

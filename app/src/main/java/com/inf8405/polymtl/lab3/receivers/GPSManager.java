@@ -12,6 +12,10 @@ import android.util.Log;
 
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 
+/**
+ * GPS manager carried over form lab 2 with very little modifications
+ **/
+
 public class GPSManager extends BroadcastReceiver {
     private static final String TAG = "GPSManager";
     
@@ -69,6 +73,15 @@ public class GPSManager extends BroadcastReceiver {
         }
     }
     
+    //Default values in case of GPS failure
+    public static double getDefaultLatitude() {
+        return 45.50461055;
+    }
+    
+    public static double getDefaultLongitude() {
+        return -73.61444413;
+    }
+    
     //___________________________________________________________________________________________________________________________________//
     public void onReceive(Context context, Intent intent) {
         updateGPSProviderStatus(context);
@@ -94,14 +107,5 @@ public class GPSManager extends BroadcastReceiver {
             ex.printStackTrace();
             return -1;
         }
-    }
-    
-    //Default values in case of GPS failure
-    public static double getDefaultLatitude() {
-        return 45.50461055;
-    }
-    
-    public static double getDefaultLongitude() {
-        return -73.61444413;
     }
 }

@@ -13,6 +13,11 @@ import com.inf8405.polymtl.lab3.entities.User;
 import com.inf8405.polymtl.lab3.managers.GlobalDataManager;
 import com.inf8405.polymtl.lab3.managers.PasswordManager;
 
+/**
+ * Listener in charge of the login
+ * Has the right to start the main menu activity if the login info is valid
+ **/
+
 public class LoginListener implements GetDataListener {
     private static String TAG = "LoginListener";
     

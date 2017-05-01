@@ -4,8 +4,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 /**
- * Simple interface based on
+ * Simple interface to enforce structure in other listeners
  **/
+
 public interface GetDataListener {
     void onSuccess(DataSnapshot dataSnapshot);
     
